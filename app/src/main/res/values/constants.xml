@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- HEADER -->
+    <dimen name="headerHeight">120dp</dimen>
+    <dimen name="headerMarginTop">25dp</dimen>
+    <string name="headerFont">sans-serif-condensed</string>
+    <dimen name="headerTextSize">25sp</dimen>
+    <dimen name="backButtonMarginLeft">15dp</dimen>
+
+
+</resources>

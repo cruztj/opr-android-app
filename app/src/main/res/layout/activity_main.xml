@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ph.edu.uplb.ics.opruplb.MainActivity"
+    android:orientation="vertical"
+    android:background="@drawable/gradientbackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/headerHeight"
+        android:layout_marginTop="@dimen/headerMarginTop"
+        android:id="@+id/mainActivityHeader">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/uplblogo"
+                android:id="@+id/uplbLogo"
+                android:layout_weight="1"
+                />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_more_vert_black_24dp"
+                android:background="@null"
+                android:id="@+id/moreButton"
+
+                />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:orientation="vertical"
+        android:paddingTop="35dp">
+        <Button
+            android:background="@drawable/buttonstyle"
+            android:id="@+id/latestNewsButton"
+            android:layout_width="220dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="30dp"
+            android:drawableLeft="@drawable/ic_newspaper"
+            android:text="Latest News" />
+        <Button
+            android:background="@drawable/buttonstyle"
+            android:id="@+id/jobOpeningsButton"
+            android:layout_width="220dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="30dp"
+            android:drawableLeft="@drawable/ic_search"
+            android:text="Job Openings" />
+        <Button
+            android:background="@drawable/buttonstyle"
+            android:id="@+id/studentAnnouncementsButton"
+            android:layout_width="220dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_horizontal"
+            android:drawableLeft="@drawable/ic_megaphone"
+            android:text="Student Announcements" />
+
+    </LinearLayout>
+
+</LinearLayout>

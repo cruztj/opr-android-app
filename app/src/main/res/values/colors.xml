@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+
+    <color name="upMaroon">#7B1113</color>
+    <color name="upGreen">#014421</color>
+    <color name="upYellow">#F3AA2C</color>
+    <color name="upBlack">#000000</color>
+
+    <color name="startColor">#961214</color>
+    <color name="grayLight">#FAFAFA</color>
+    <color name="colorAccent">#FF4081</color>
+</resources>
