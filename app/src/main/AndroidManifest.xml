@@ -20,7 +20,8 @@
         </activity>
         <activity android:name=".StudentAnnouncements" />
         <activity android:name=".LatestNews" />
-        <activity android:name=".JobOpenings"></activity>
+        <activity android:name=".JobOpenings" />
+        <activity android:name=".AdminPage"></activity>
     </application>
 
 </manifest>

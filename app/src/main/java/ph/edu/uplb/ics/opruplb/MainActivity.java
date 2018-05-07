@@ -1,6 +1,7 @@
 package ph.edu.uplb.ics.opruplb;
 
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -87,11 +89,30 @@ public class MainActivity extends AppCompatActivity{
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.menuLogIn:
-                        //MAKE POP UP SHIT FOR LOGIN
-                        Toast.makeText(MainActivity.this, "Log in pressed", Toast.LENGTH_SHORT).show();
+                        AlertDialog.Builder logInDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                        View logInView = getLayoutInflater().inflate(R.layout.dialog_login, null);
+                        final EditText emailEditText = (EditText) logInView.findViewById(R.id.emailText);
+                        final EditText passwordEditText = (EditText) logInView.findViewById(R.id.passwordText);
+                        Button logInButton = (Button) logInView.findViewById(R.id.logInButton);
+
+                        logInButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(!emailEditText.getText().toString().isEmpty() && !passwordEditText.getText().toString().isEmpty()){
+                                    //add email and pw validation
+                                    Intent intent = new Intent(MainActivity.this, AdminPage.class);
+                                    startActivity(intent);
+                                }
+                            }
+                        });
+
+                        logInDialogBuilder.setView(logInView);
+                        AlertDialog logInAlertDialog = logInDialogBuilder.create();
+                        logInAlertDialog.show();
+
                         return true;
                     case  R.id.menuAbout:
-                        Toast.makeText(MainActivity.this, "About pressed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "About pressed", Toast.LENGTH_LONG).show();
                         return true;
                     default:
                         return false;
@@ -101,7 +122,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
-    public void getData() throws IOException {
+    /*public void getData() throws IOException {
         Log.i("MainActivity.getData", "CONNECTING TO API...");
         HttpClient client = new DefaultHttpClient();
         String url = "http://54.186.68.67:3000/suppliers/";
@@ -116,6 +137,7 @@ public class MainActivity extends AppCompatActivity{
             for(int i=0; i<tokens.length; i++)
                 Log.i("GET RESPONSE", tokens[i]);
         }
+    }*/
 
-    }
+
 }
