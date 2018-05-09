@@ -2,4 +2,17 @@
     <string name="app_name">OPR UPLB</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_admin_page">AdminPage</string>
+
+    <string-array name="studentAnnouncementsList">
+        <item>One</item>
+        <item>Two</item>
+        <item>Three</item>
+        <item>Four</item>
+        <item>Five</item>
+        <item>Six</item>
+        <item>Seven</item>
+        <item>Eight</item>
+        <item>Nine</item>
+        <item>Ten</item>
+    </string-array>
 </resources>

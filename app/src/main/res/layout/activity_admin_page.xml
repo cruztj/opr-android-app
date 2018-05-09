@@ -39,7 +39,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:id="@+id/postTitleSpace">
-        <EditText
+
+            <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -47,6 +48,8 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:hint="Post Title"
+            android:scrollHorizontally="false"
+            android:maxLines="40"
             android:id="@+id/postTitleText" />
         </android.support.design.widget.TextInputLayout>
 
@@ -64,7 +67,9 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:hint="Post Description"
-                android:layout_below="@+id/postTitleTextView"
+                android:scrollHorizontally="false"
+                android:maxLines="80"
+                android:layout_below="@+id/postTitleText"
                 android:id="@+id/postDescriptionText" />
         </android.support.design.widget.TextInputLayout>
 

@@ -33,10 +33,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/headerSpace">
-
-
-
+        android:layout_below="@+id/headerSpace"
+        android:orientation="vertical"
+        android:id="@+id/listViewLinearLayout">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/listViewJobOpenings">
+        </ListView>
     </LinearLayout>
 
 </RelativeLayout>

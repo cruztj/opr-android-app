@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="ph.edu.uplb.ics.opruplb.StudentAnnouncements">
 
     <RelativeLayout
@@ -28,4 +29,16 @@
             android:text="STUDENT ANNOUNCEMENTS"
             android:layout_toRightOf="@+id/backButton" />
     </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/headerSpace"
+        android:orientation="vertical"
+        android:id="@+id/listViewLinearLayout">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/listViewAnnouncements">
+        </ListView>
+    </LinearLayout>
 </RelativeLayout>
