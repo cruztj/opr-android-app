@@ -1,10 +1,12 @@
 package ph.edu.uplb.ics.opruplb;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,6 +17,12 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 import android.widget.Toolbar;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -32,12 +40,16 @@ public class MainActivity extends AppCompatActivity{
     private Button studentAnnouncementsButton;
     private ImageButton optionsButton;
 
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         initLayout();
+
+        mAuth = FirebaseAuth.getInstance();
     }
 
     private void initLayout(){
@@ -98,11 +110,7 @@ public class MainActivity extends AppCompatActivity{
                         logInButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if(!emailEditText.getText().toString().isEmpty() && !passwordEditText.getText().toString().isEmpty()){
-                                    //add email and pw validation
-                                    Intent intent = new Intent(MainActivity.this, AdminPage.class);
-                                    startActivity(intent);
-                                }
+                                authenticateLogIn(emailEditText, passwordEditText);
                             }
                         });
 
@@ -116,6 +124,51 @@ public class MainActivity extends AppCompatActivity{
                         return true;
                     default:
                         return false;
+                }
+            }
+        });
+    }
+
+
+
+    private void authenticateLogIn(EditText emailEditText, EditText passwordEditText){
+        String email = emailEditText.getText().toString().trim();
+        String pass = passwordEditText.getText().toString().trim();
+
+        if(email.isEmpty()){
+            emailEditText.setError("Email is required");
+            emailEditText.requestFocus();
+            return;
+        }
+        if(pass.isEmpty()){
+            passwordEditText.setError("Password is required");
+            passwordEditText.requestFocus();
+            return;
+        }
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            emailEditText.setError("Please enter a valid email address");
+            emailEditText.requestFocus();
+            return;
+        }
+        if(pass.length() < 8){
+            passwordEditText.setError("Password should be at least 8 characters");
+            passwordEditText.requestFocus();
+            return;
+        }
+
+        mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Log.d("USER SIGN IN", "signInWithEmail:success");
+                    FirebaseUser user = mAuth.getCurrentUser();
+
+                    Intent intent = new Intent(MainActivity.this, AdminPage.class);
+                    startActivity(intent);
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w("USER SIGN IN", "signInWithEmail:failure", task.getException());
+                    Toast.makeText(MainActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

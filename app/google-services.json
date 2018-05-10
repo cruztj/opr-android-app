@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1035357379620",
+    "firebase_url": "https://opr-uplb.firebaseio.com",
+    "project_id": "opr-uplb",
+    "storage_bucket": "opr-uplb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1035357379620:android:d3309e46d7ab2efb",
+        "android_client_info": {
+          "package_name": "ph.edu.uplb.ics.opruplb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1035357379620-j11nca07r96lgrsu7bcf01qt8rii68s0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ph.edu.uplb.ics.opruplb",
+            "certificate_hash": "d0d76f3577862532f8b1214eef17f24a2b678f37"
+          }
+        },
+        {
+          "client_id": "1035357379620-55nu96tus5ia9l82are0bl1ngod33bgv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDn1bnzlGjcxDUa474EFopWa0UzByTrg7E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1035357379620-55nu96tus5ia9l82are0bl1ngod33bgv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
