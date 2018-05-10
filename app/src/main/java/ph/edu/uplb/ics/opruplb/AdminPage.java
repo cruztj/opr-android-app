@@ -1,8 +1,11 @@
 package ph.edu.uplb.ics.opruplb;
 
+import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,14 +21,24 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 public class AdminPage extends AppCompatActivity {
@@ -48,48 +61,92 @@ public class AdminPage extends AppCompatActivity {
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String postTitle = postTitleEditText.getText().toString().trim();
+                String postContent = postContentEditText.getText().toString().trim();
+                if(postTitle.isEmpty()){
+                    postTitleEditText.setError("Post title is required");
+                    postTitleEditText.requestFocus();
+                    return;
+                }
+                if(postContent.isEmpty()){
+                    postContentEditText.setError("Post content is required");
+                    postContentEditText.requestFocus();
+                    return;
+                }
                 try {
-                    writeToDatabase(postTitleEditText, postContentEditText);
-                } catch (IOException e) {
+                    sendDataToServer(createJSONObject(postTitleEditText, postContentEditText));
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
     }
 
+    @SuppressLint("StaticFieldLeak")
+    private void sendDataToServer(JSONObject jsonObject){
+        final String jsonString = jsonObject.toString();
 
-    private void writeToDatabase(EditText postTitleEditText, EditText postContentEditText) throws IOException{
-        String postTitle = postTitleEditText.getText().toString().trim();
-        String postContent = postContentEditText.getText().toString().trim();
+        new AsyncTask<Void, Void, String>(){
+            @Override
+            protected String doInBackground(Void... voids) {
+                try {
+                    return getServerResponse(jsonString);
+                } catch (UnsupportedEncodingException e) {
+                    Log.d("AdminPushData", e.toString());
+                } catch (IOException e) {
+                    Log.d("AdminPushData", e.toString());
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                Toast.makeText(AdminPage.this, "Post created!", Toast.LENGTH_SHORT).show();
+                postTitleEditText.setText("");
+                postContentEditText.setText("");
+            }
+        }.execute();
+    }
+
+    private String getServerResponse(String json) throws IOException {
         String url = "http://54.186.68.67:3001/announcements";
 
-        //TODO: Create a class for this later on???
+        HttpPost post = new HttpPost(url);
+        StringEntity entity = new StringEntity(json);
+        post.setEntity(entity);
+        post.setHeader("Content-type", "application/json");
+
+        DefaultHttpClient client = new DefaultHttpClient();
+
+        BasicResponseHandler handler = new BasicResponseHandler();
+        String response = client.execute(post, handler);
+
+        return response;
+    }
+
+
+    private JSONObject createJSONObject(EditText postTitleEditText, EditText postContentEditText) throws JSONException {
+        String postTitle = postTitleEditText.getText().toString().trim();
+        String postContent = postContentEditText.getText().toString().trim();
+        String dateTime = getCurrentDateTime();
+
+        String urlString = "http://54.186.68.67:3001/announcements";
+
         Log.i("AdminPage.getData", "CONNECTING TO API...");
 
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("announcement_title", postTitle);
+        jsonObject.put("announcement_text", postContent);
+        jsonObject.put("announcement_date_schedule", dateTime);
 
+        return jsonObject;
+    }
 
+    public String getCurrentDateTime(){
+        Calendar calendar = Calendar.getInstance();
+        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
-
-
-        /*HttpClient client = new DefaultHttpClient();
-        HttpGet get = new HttpGet(url);
-        HttpResponse responseGet = client.execute(get);
-        HttpEntity resEntityGet = responseGet.getEntity();
-
-        if(resEntityGet != null){
-            //String response = EntityUtils.toString(resEntityGet);
-            //parse JSON here
-            //String[] tokens = response.replaceAll("[\\[\\{]","").split("\\}");
-            //for(int i=0; i<tokens.length; i++)
-            //    Log.i("GET RESPONSE", tokens[i]);
-
-            InputStream inputStream = resEntityGet.getContent();
-            result = convertStreamToString(inputStream);
-
-        }*/
-
-
-
-        //Toast.makeText(AdminPage.this, "Post Created", Toast.LENGTH_SHORT).show();
+        return simpleDateFormat.format(calendar.getTime());
     }
 }
