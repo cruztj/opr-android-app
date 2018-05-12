@@ -16,9 +16,9 @@ import java.util.ArrayList;
 
 public class CustomListViewAnnouncements extends ArrayAdapter<String> {
 
-    String[] postTitle;
-    String[] timeStamp;
-    String[] postContent;
+    private String[] postTitle;
+    private String[] timeStamp;
+    private String[] postContent;
     private Activity context;
 
     public CustomListViewAnnouncements(Activity context, ArrayList<String> postTitle, ArrayList<String> timeStamp, ArrayList<String> postContent) {

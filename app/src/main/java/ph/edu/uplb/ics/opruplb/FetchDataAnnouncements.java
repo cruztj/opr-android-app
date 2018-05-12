@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class FetchDataAnnouncements extends AsyncTask<Void, Void, Void>{
     String data = "";
-    Activity context;
+    private Activity context;
 
     private ArrayList<String> postTitle = new ArrayList<String>();
     private ArrayList<String> timeStamp = new ArrayList<String>();

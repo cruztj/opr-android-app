@@ -33,11 +33,6 @@ public class StudentAnnouncements extends AppCompatActivity {
 
     private ImageButton backButton;
     static ListView listView;
-    private  ListView emptyListView;
-
-    private ArrayList<String> postTitle = new ArrayList<String>();
-    private ArrayList<String> timeStamp = new ArrayList<String>();
-    private ArrayList<String> postContent = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +48,7 @@ public class StudentAnnouncements extends AppCompatActivity {
         initLayout();
     }
 
-    private void initLayout() {
+    private void initLayout(){
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
