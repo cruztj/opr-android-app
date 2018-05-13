@@ -21,7 +21,11 @@
         <activity android:name=".StudentAnnouncements" />
         <activity android:name=".LatestNews" />
         <activity android:name=".JobOpenings" />
-        <activity android:name=".AdminPage"></activity>
+        <activity android:name=".AdminPage" />
+        <activity
+            android:name=".TabActivity"
+            android:label="@string/title_activity_tab"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

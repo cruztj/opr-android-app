@@ -29,10 +29,39 @@
             android:text="LATEST NEWS"
             android:layout_toRightOf="@+id/backButton" />
     </RelativeLayout>
+
+        <android.support.design.widget.TabLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/headerSpace"
+            app:tabTextAppearance="@style/CustomTabTextLayout"
+            android:id="@+id/tabLayout">
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Academic" />
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Research" />
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Campus" />
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Community" />
+        </android.support.design.widget.TabLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/headerSpace"
+        android:layout_below="@+id/tabLayout"
         android:orientation="vertical"
         android:id="@+id/listViewLinearLayout">
         <ListView

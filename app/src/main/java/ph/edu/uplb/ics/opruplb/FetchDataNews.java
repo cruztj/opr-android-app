@@ -18,9 +18,10 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 public class FetchDataNews extends AsyncTask<Void, Void, Boolean>{
-    private String urlString = "https://uplb.edu.ph/component/k2/itemlist?format=feed&moduleID=279";
+    private String urlString = "";
     private boolean isItem = false;
     private Activity context;
+    private int tabPosition;
 
     private String title=null;
     private String link=null;
@@ -31,13 +32,25 @@ public class FetchDataNews extends AsyncTask<Void, Void, Boolean>{
     private ArrayList<String> postLink = new ArrayList<String>();
     private ArrayList<String> postContent = new ArrayList<String>();
 
-    public FetchDataNews(Activity context){
+    public FetchDataNews(Activity context, int tabPosition){
         this.context = context;
+        this.tabPosition = tabPosition;
     }
 
 
     @Override
     protected Boolean doInBackground(Void... voids) {
+
+        switch (tabPosition){
+            case 0: urlString = "https://uplb.edu.ph/component/k2/itemlist?format=feed&moduleID=279";
+                break;
+            case 1: urlString = "https://uplb.edu.ph/component/k2/itemlist?format=feed&moduleID=282";
+                break;
+            case 2: urlString = "https://uplb.edu.ph/component/k2/itemlist?format=feed&moduleID=280";
+                break;
+            case 3: urlString = "https://uplb.edu.ph/component/k2/itemlist?format=feed&moduleID=283";
+                break;
+        }
 
         try {
             URL url = new URL(urlString);
