@@ -50,7 +50,7 @@ public class CustomListViewLatestNews extends ArrayAdapter<String>{
         }
         viewHolder.postTitleTextView.setText(postTitle[position]);
         //viewHolder.postTimeStampTextView.setText(timeStamp[position]);
-        viewHolder.postLinkTextView.setText(postLink[position]);
+        viewHolder.postLinkTextView.setText(postLink[position+1]);
         //viewHolder.postContentTextView.setText(postContent[position]);
 
         return view;

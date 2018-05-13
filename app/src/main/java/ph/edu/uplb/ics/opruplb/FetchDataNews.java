@@ -110,18 +110,26 @@ public class FetchDataNews extends AsyncTask<Void, Void, Boolean>{
                 title = result;
                 postTitle.add(result);
             } else if(name.equalsIgnoreCase("link")){
-                postLink.add(result);
+                if(result != "https://uplb.edu.ph")
+                    postLink.add(result);
             } else if(name.equalsIgnoreCase("description")){
                 postContent.add(result);
             }
 
-            if(title != null && link != null && description!=null){
+            if(title != null && link != null && description != null){
                 title = null;
                 link = null;
                 description = null;
                 isItem = false;
             }
         }
+    }
 
+    public String getUrlString(int position){
+        return postLink.get(position);
+    }
+
+    public String getTitleString(int position){
+        return postTitle.get(position);
     }
 }

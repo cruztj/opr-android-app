@@ -173,24 +173,4 @@ public class MainActivity extends AppCompatActivity{
             }
         });
     }
-
-
-    /*public void getData() throws IOException {
-        Log.i("MainActivity.getData", "CONNECTING TO API...");
-        HttpClient client = new DefaultHttpClient();
-        String url = "http://54.186.68.67:3000/suppliers/";
-        HttpGet get = new HttpGet(url);
-        HttpResponse responseGet = client.execute(get);
-        HttpEntity resEntityGet = responseGet.getEntity();
-
-        if(resEntityGet != null){
-            String response = EntityUtils.toString(resEntityGet);
-            //parse JSON here
-            String[] tokens = response.replaceAll("[\\[\\{]","").split("\\}");
-            for(int i=0; i<tokens.length; i++)
-                Log.i("GET RESPONSE", tokens[i]);
-        }
-    }*/
-
-
 }

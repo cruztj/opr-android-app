@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ public class LatestNews extends AppCompatActivity {
     private ImageButton backButton;
     static ListView listView;
     private TabLayout tabLayout;
+    private FetchDataNews fetchData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,15 +29,15 @@ public class LatestNews extends AppCompatActivity {
         backButton = (ImageButton) findViewById(R.id.backButton);
         listView = (ListView) findViewById(R.id.listViewLatestNews);
 
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        initLayout();
 
-        FetchDataNews fetchData = new FetchDataNews(LatestNews.this, 0);
+        fetchData = new FetchDataNews(LatestNews.this, 0);
         fetchData.execute();
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                FetchDataNews fetchData = new FetchDataNews(LatestNews.this, tab.getPosition());
+                fetchData = new FetchDataNews(LatestNews.this, tab.getPosition());
                 fetchData.execute();
             }
 
@@ -49,14 +51,6 @@ public class LatestNews extends AppCompatActivity {
 
             }
         });
-
-        //using RSS
-        //FetchDataNews fetchData = new FetchDataNews(this);
-        //fetchData.execute();
-
-        //TODO: Use webview when link is clicked or direct to link using browser
-
-        initLayout();
     }
 
     private void initLayout(){
@@ -67,5 +61,18 @@ public class LatestNews extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(LatestNews.this, PopUpActivity.class);
+                intent.putExtra("urlString", fetchData.getUrlString(position+1));
+                intent.putExtra("titleString", fetchData.getTitleString(position));
+                startActivity(intent);
+            }
+        });
+
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
     }
 }
