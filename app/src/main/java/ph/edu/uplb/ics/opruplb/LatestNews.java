@@ -34,7 +34,7 @@ public class LatestNews extends AppCompatActivity {
         fetchData = new FetchDataNews(LatestNews.this, 0);
         fetchData.execute();
 
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 fetchData = new FetchDataNews(LatestNews.this, tab.getPosition());

@@ -119,6 +119,17 @@ public class MainActivity extends AppCompatActivity{
                         logInAlertDialog.show();
 
                         return true;
+
+                    case R.id.menuContactUs:
+                        AlertDialog.Builder contactDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                        View contactView = getLayoutInflater().inflate(R.layout.dialog_contactus, null);
+
+                        contactDialogBuilder.setView(contactView);
+                        AlertDialog contactAlertDialog = contactDialogBuilder.create();
+                        contactAlertDialog.show();
+
+                        return true;
+
                     case  R.id.menuAbout:
                         AlertDialog.Builder aboutDialogBuilder = new AlertDialog.Builder(MainActivity.this);
                         View aboutView = getLayoutInflater().inflate(R.layout.dialog_about, null);

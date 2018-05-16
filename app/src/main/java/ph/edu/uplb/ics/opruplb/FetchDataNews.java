@@ -99,7 +99,6 @@ public class FetchDataNews extends AsyncTask<Void, Void, Boolean>{
                 }
             }
 
-            Log.d("XmlParser", "Parsing name: "+name);
             String result = "";
             if(xmlPullParser.next() == XmlPullParser.TEXT){
                 result = xmlPullParser.getText();
@@ -112,8 +111,8 @@ public class FetchDataNews extends AsyncTask<Void, Void, Boolean>{
             } else if(name.equalsIgnoreCase("link")){
                 if(result != "https://uplb.edu.ph")
                     postLink.add(result);
-            } else if(name.equalsIgnoreCase("description")){
-                postContent.add(result);
+            //} else if(name.equalsIgnoreCase("description")){
+            //    postContent.add(result);
             }
 
             if(title != null && link != null && description != null){

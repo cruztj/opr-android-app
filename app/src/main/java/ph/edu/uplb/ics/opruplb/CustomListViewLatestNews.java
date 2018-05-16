@@ -14,23 +14,23 @@ import java.util.ArrayList;
 public class CustomListViewLatestNews extends ArrayAdapter<String>{
 
     private String[] postTitle;
-    private String[] timeStamp;
+    //private String[] timeStamp;
     private String[] postLink;
-    private String[] postContent;
+    //private String[] postContent;
     private Activity context;
 
     public CustomListViewLatestNews(Activity context, ArrayList<String> postTitle, ArrayList<String> timeStamp, ArrayList<String> postContent, ArrayList<String> postLink) {
         super(context, R.layout.listview_news_layout, postTitle.toArray(new String[postTitle.size()]));
 
         String[] postTitleArray = postTitle.toArray(new String[postTitle.size()]);
-        String[] timeStampArray = timeStamp.toArray(new String[timeStamp.size()]);
         String[] postLinkArray = postLink.toArray(new String[postLink.size()]);
-        String[] postContentArray = postContent.toArray(new String[postContent.size()]);
+        //String[] timeStampArray = timeStamp.toArray(new String[timeStamp.size()]);
+        //String[] postContentArray = postContent.toArray(new String[postContent.size()]);
 
         this.context = context;
         this.postTitle = postTitleArray;
-        this.timeStamp = timeStampArray;
-        this.postContent = postContentArray;
+        //this.timeStamp = timeStampArray;
+        //this.postContent = postContentArray;
         this.postLink = postLinkArray;
     }
 
@@ -50,7 +50,7 @@ public class CustomListViewLatestNews extends ArrayAdapter<String>{
         }
         viewHolder.postTitleTextView.setText(postTitle[position]);
         //viewHolder.postTimeStampTextView.setText(timeStamp[position]);
-        viewHolder.postLinkTextView.setText(postLink[position+1]);
+        //viewHolder.postLinkTextView.setText(postLink[position+1]);
         //viewHolder.postContentTextView.setText(postContent[position]);
 
         return view;
@@ -59,15 +59,15 @@ public class CustomListViewLatestNews extends ArrayAdapter<String>{
 
     class ViewHolderLatestNews{
         TextView postTitleTextView;
-        TextView postTimeStampTextView;
-        TextView postContentTextView;
-        TextView postLinkTextView;
+        //TextView postTimeStampTextView;
+        //TextView postContentTextView;
+        //TextView postLinkTextView;
 
         ViewHolderLatestNews(View view){
             postTitleTextView = view.findViewById(R.id.newsPostTitleTextView);
-            postTimeStampTextView = view.findViewById(R.id.newsPostTimeStampTextView);
-            postLinkTextView = view.findViewById(R.id.newsPostLinkTextView);
-            postContentTextView = view.findViewById(R.id.newsPostContentTextView);
+            //postTimeStampTextView = view.findViewById(R.id.newsPostTimeStampTextView);
+            //postLinkTextView = view.findViewById(R.id.newsPostLinkTextView);
+            //postContentTextView = view.findViewById(R.id.newsPostContentTextView);
         }
     }
 }
