@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:background="@drawable/gradientbackground">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/headerHeight"
         android:layout_marginTop="@dimen/headerMarginTop"
@@ -25,42 +25,72 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_more_vert_black_24dp"
                 android:background="@null"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
                 android:id="@+id/moreButton"
 
                 />
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:orientation="vertical"
         android:paddingTop="35dp">
-        <Button
-            android:background="@drawable/buttonstyle"
-            android:id="@+id/latestNewsButton"
-            android:layout_width="220dp"
-            android:layout_height="70dp"
-            android:layout_gravity="center_horizontal"
+        <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
             android:layout_marginBottom="30dp"
-            android:drawableLeft="@drawable/ic_newspaper"
-            android:text="Latest News" />
-        <Button
-            android:background="@drawable/buttonstyle"
-            android:id="@+id/jobOpeningsButton"
-            android:layout_width="220dp"
-            android:layout_height="70dp"
-            android:layout_gravity="center_horizontal"
+            app:cardElevation="10dp"
+            app:cardMaxElevation="15dp"
+            android:layout_gravity="center">
+            <Button
+                android:background="@drawable/buttonstyle"
+                android:id="@+id/latestNewsButton"
+                android:layout_width="220dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal"
+                android:drawableLeft="@drawable/ic_newspaper"
+                android:text="Latest News" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
             android:layout_marginBottom="30dp"
-            android:drawableLeft="@drawable/ic_search"
-            android:text="Job Openings" />
-        <Button
-            android:background="@drawable/buttonstyle"
-            android:id="@+id/studentAnnouncementsButton"
-            android:layout_width="220dp"
-            android:layout_height="70dp"
-            android:layout_gravity="center_horizontal"
-            android:drawableLeft="@drawable/ic_megaphone"
-            android:text="Student Announcements" />
+            app:cardElevation="10dp"
+            app:cardMaxElevation="15dp"
+            android:layout_gravity="center">
+            <Button
+                android:background="@drawable/buttonstyle"
+                android:id="@+id/jobOpeningsButton"
+                android:layout_width="220dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal"
+                android:drawableLeft="@drawable/ic_search"
+                android:text="Job Openings" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            android:layout_marginBottom="30dp"
+            app:cardElevation="10dp"
+            app:cardMaxElevation="15dp"
+            app:cardPreventCornerOverlap="true"
+            android:layout_gravity="center">
+            <Button
+                android:background="@drawable/buttonstyle"
+                android:id="@+id/studentAnnouncementsButton"
+                android:layout_width="220dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal"
+                android:drawableLeft="@drawable/ic_megaphone"
+                android:text="Student Announcements" />
+        </android.support.v7.widget.CardView>
 
     </LinearLayout>
 

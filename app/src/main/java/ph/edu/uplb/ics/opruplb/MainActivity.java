@@ -120,7 +120,13 @@ public class MainActivity extends AppCompatActivity{
 
                         return true;
                     case  R.id.menuAbout:
-                        Toast.makeText(MainActivity.this, "About pressed", Toast.LENGTH_LONG).show();
+                        AlertDialog.Builder aboutDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                        View aboutView = getLayoutInflater().inflate(R.layout.dialog_about, null);
+
+                        aboutDialogBuilder.setView(aboutView);
+                        AlertDialog aboutAlertDialog = aboutDialogBuilder.create();
+                        aboutAlertDialog.show();
+
                         return true;
                     default:
                         return false;

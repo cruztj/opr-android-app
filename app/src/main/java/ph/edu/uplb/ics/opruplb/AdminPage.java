@@ -1,6 +1,7 @@
 package ph.edu.uplb.ics.opruplb;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -46,6 +48,7 @@ public class AdminPage extends AppCompatActivity {
     private EditText postTitleEditText;
     private EditText postContentEditText;
     private Button postButton;
+    private ImageButton backButton;
 
 
     @Override
@@ -56,6 +59,15 @@ public class AdminPage extends AppCompatActivity {
         postTitleEditText = (EditText) findViewById(R.id.postTitleText);
         postContentEditText = (EditText) findViewById(R.id.postDescriptionText);
         postButton = (Button) findViewById(R.id.postButton);
+        backButton = (ImageButton) findViewById(R.id.backButton);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminPage.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         postButton.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +121,7 @@ public class AdminPage extends AppCompatActivity {
     }
 
     private String getServerResponse(String json) throws IOException {
-        String url = "http://54.186.68.67:3001/announcements";
+        String url = "http://192.168.1.160:3001/announcements";
 
         HttpPost post = new HttpPost(url);
         StringEntity entity = new StringEntity(json);
@@ -130,7 +142,7 @@ public class AdminPage extends AppCompatActivity {
         String postContent = postContentEditText.getText().toString().trim();
         String dateTime = getCurrentDateTime();
 
-        String urlString = "http://54.186.68.67:3001/announcements";
+        String urlString = "http://192.168.1.160:3001/announcements";
 
         Log.i("AdminPage.getData", "CONNECTING TO API...");
 

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="ph.edu.uplb.ics.opruplb.StudentAnnouncements">
+    tools:context="ph.edu.uplb.ics.opruplb.StudentAnnouncements"
+    android:background="@drawable/gradientbackground">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,6 +28,7 @@
             android:fontFamily="@string/headerFont"
             android:textSize="@dimen/headerTextSize"
             android:text="STUDENT ANNOUNCEMENTS"
+            android:textColor="#ffffff"
             android:layout_toRightOf="@+id/backButton" />
     </RelativeLayout>
     <LinearLayout
@@ -34,7 +36,8 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/headerSpace"
         android:orientation="vertical"
-        android:id="@+id/listViewLinearLayout">
+        android:id="@+id/listViewLinearLayout"
+        android:background="#d9d9d9">
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
