@@ -73,6 +73,5 @@ public class LatestNews extends AppCompatActivity {
         });
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
     }
 }

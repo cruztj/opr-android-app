@@ -1,18 +1,35 @@
 package ph.edu.uplb.ics.opruplb;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +48,8 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -48,7 +67,13 @@ public class AdminPage extends AppCompatActivity {
     private EditText postTitleEditText;
     private EditText postContentEditText;
     private Button postButton;
+    private Button uploadButton;
     private ImageButton backButton;
+    private ImageView imageView;
+    private ImageButton optionsButton;
+
+    private File mCurrentPhoto;
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -56,16 +81,39 @@ public class AdminPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_page);
 
+        mAuth = FirebaseAuth.getInstance();
+
         postTitleEditText = (EditText) findViewById(R.id.postTitleText);
         postContentEditText = (EditText) findViewById(R.id.postDescriptionText);
         postButton = (Button) findViewById(R.id.postButton);
+        uploadButton = (Button) findViewById(R.id.uploadButton);
         backButton = (ImageButton) findViewById(R.id.backButton);
+        optionsButton = (ImageButton) findViewById(R.id.moreButton);
+        imageView = (ImageView) findViewById(R.id.imageView);
+
+        imageView.setBackgroundColor(Color.rgb(140,140,140));
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AdminPage.this, MainActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        optionsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopUp(v);
+            }
+        });
+
+        uploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(galleryIntent, 0);
             }
         });
 
@@ -92,6 +140,79 @@ public class AdminPage extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void showPopUp(View v){
+        PopupMenu popUp = new PopupMenu(this, v);
+        MenuInflater inflater = popUp.getMenuInflater();
+        inflater.inflate(R.menu.admin_options_menu, popUp.getMenu());
+        popUp.show();
+
+        popUp.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.menuLogOut:
+                        mAuth.signOut();
+                        Intent intent = new Intent(AdminPage.this, MainActivity.class);
+                        startActivity(intent);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case 0:
+                if (resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+                    String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                    Cursor cursor = this.getContentResolver().query(data.getData(), filePathColumn, null, null, null);
+                    if (cursor == null || cursor.getCount() < 1) {
+                        mCurrentPhoto = null;
+                        break;
+                    }
+                    cursor.moveToFirst();
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    if(columnIndex < 0) { // no column index
+                        mCurrentPhoto = null;
+                        break;
+                    }
+                    mCurrentPhoto = new File(cursor.getString(columnIndex));
+                    cursor.close();
+                } else {
+                    mCurrentPhoto = null;
+                }
+                break;
+            default: Log.d("Image show", "No image");
+        }
+
+        String[] galleryPermissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
+
+        final int myVersion = Build.VERSION.SDK_INT;
+        if (myVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (!checkIfAlreadyHasPermission()) {
+                ActivityCompat.requestPermissions(this,galleryPermissions, 1);
+            }
+        }
+            changeBitmap();
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void changeBitmap(){
+        if (mCurrentPhoto != null) {
+            Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhoto.getAbsolutePath());
+            imageView.setImageBitmap(bitmap);
+        }
+    }
+
+    private boolean checkIfAlreadyHasPermission() {
+        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        return result == PackageManager.PERMISSION_GRANTED;
     }
 
     @SuppressLint("StaticFieldLeak")

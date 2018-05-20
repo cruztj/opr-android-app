@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity{
                         View contactView = getLayoutInflater().inflate(R.layout.dialog_contactus, null);
 
                         contactDialogBuilder.setView(contactView);
+
                         AlertDialog contactAlertDialog = contactDialogBuilder.create();
                         contactAlertDialog.show();
 

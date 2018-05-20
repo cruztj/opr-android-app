@@ -1,9 +1,11 @@
 package ph.edu.uplb.ics.opruplb;
 
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -13,6 +15,7 @@ public class JobOpenings extends AppCompatActivity {
 
     private ImageButton backButton;
     private ListView listView;
+    private TabLayout tabLayout;
 
     //TODO: Use a function to get these from the website
     String[] jobOpeningCollegeUnitArray = {"CAS", "CA", "CEM"};
@@ -32,12 +35,33 @@ public class JobOpenings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_openings);
 
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        backButton = (ImageButton) findViewById(R.id.backButton);
+        listView = (ListView) findViewById(R.id.listViewJobOpenings);
+
         initLayout();
+
+        //get jobOpenings data
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     private void initLayout(){
-        backButton = (ImageButton) findViewById(R.id.backButton);
-        listView = (ListView) findViewById(R.id.listViewJobOpenings);
         CustomListViewJobOpenings customListViewJobOpenings = new CustomListViewJobOpenings(this, jobOpeningCollegeUnitArray,
                 jobOpeningPositionArray, jobOpeningItemNoArray, jobOpeningMinEducationArray, jobOpeningMinExperienceArray,
                 jobOpeningMinTrainingArray, jobOpeningMinEligibilityArray, jobOpeningDueDateArray, jobOpeningContactPersonArray);
@@ -51,5 +75,14 @@ public class JobOpenings extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //create popUp displaying other details and an I'm Interested Button
+            }
+        });
+
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
     }
 }
