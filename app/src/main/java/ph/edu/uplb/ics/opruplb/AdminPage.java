@@ -9,12 +9,13 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,38 +30,24 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.auth.FirebaseUser;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
 
 public class AdminPage extends AppCompatActivity {
 
@@ -157,8 +144,85 @@ public class AdminPage extends AppCompatActivity {
                         Intent intent = new Intent(AdminPage.this, MainActivity.class);
                         startActivity(intent);
                         return true;
+
+                    case R.id.menuAddAccount:
+//                        create dialog for sign up
+                        AlertDialog.Builder logInDialogBuilder = new AlertDialog.Builder(AdminPage.this);
+                        View addUserView = getLayoutInflater().inflate(R.layout.dialog_adduser, null);
+                        final EditText emailEditText = (EditText) addUserView.findViewById(R.id.emailText);
+                        final EditText passwordEditText = (EditText) addUserView.findViewById(R.id.passwordText);
+                        final EditText passwordConfirmEditText = (EditText) addUserView.findViewById(R.id.passwordConfirmText);
+                        Button addUserButton = (Button) addUserView.findViewById(R.id.addUserButton);
+
+                        addUserButton.setOnClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View v){
+                                createUser(emailEditText, passwordEditText, passwordConfirmEditText);
+                            }
+                        });
+
+//
+                        logInDialogBuilder.setView(addUserView);
+                        AlertDialog logInAlertDialog = logInDialogBuilder.create();
+                        logInAlertDialog.show();
+
+                        return true;
                     default:
                         return false;
+                }
+            }
+        });
+    }
+
+    public void createUser(EditText emailEditText, EditText passwordEditText, EditText passwordConfirmEditText){
+        String email = emailEditText.getText().toString().trim();
+        String pass = passwordEditText.getText().toString().trim();
+        String passConfirm = passwordConfirmEditText.getText().toString().trim();
+
+        if(email.isEmpty()){
+            emailEditText.setError("Email is required");
+            emailEditText.requestFocus();
+            return;
+        } else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            emailEditText.setError("Please enter a valid email address");
+            emailEditText.requestFocus();
+            return;
+        }
+        if(pass.isEmpty()){
+            passwordEditText.setError("Password is required");
+            passwordEditText.requestFocus();
+            return;
+        }
+        if(passConfirm.isEmpty()){
+            passwordConfirmEditText.setError("Confirm Password is required");
+            passwordConfirmEditText.requestFocus();
+            return;
+        }
+        if(pass.length() < 8){
+            passwordEditText.setError("Password should be at least 8 characters");
+            passwordEditText.requestFocus();
+            return;
+        } else if(!pass.equals(passConfirm)){
+            passwordEditText.setError("Passwords should match");
+            passwordConfirmEditText.setError("Passwords should match");
+            passwordEditText.requestFocus();
+            return;
+        }
+
+        mAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(AdminPage.this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Log.d("USER SIGN UP", "signUpWithEmail:success");
+                    Toast.makeText(AdminPage.this, "User successfully added", Toast.LENGTH_SHORT).show();
+                    FirebaseUser user = mAuth.getCurrentUser();
+
+                    Intent intent = new Intent(AdminPage.this, AdminPage.class);
+                    startActivity(intent);
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w("USER SIGN IN", "signInWithEmail:failure", task.getException());
+                    Toast.makeText(AdminPage.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
