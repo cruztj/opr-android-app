@@ -146,7 +146,6 @@ public class AdminPage extends AppCompatActivity {
                         return true;
 
                     case R.id.menuAddAccount:
-//                        create dialog for sign up
                         AlertDialog.Builder logInDialogBuilder = new AlertDialog.Builder(AdminPage.this);
                         View addUserView = getLayoutInflater().inflate(R.layout.dialog_adduser, null);
                         final EditText emailEditText = (EditText) addUserView.findViewById(R.id.emailText);
@@ -161,7 +160,6 @@ public class AdminPage extends AppCompatActivity {
                             }
                         });
 
-//
                         logInDialogBuilder.setView(addUserView);
                         AlertDialog logInAlertDialog = logInDialogBuilder.create();
                         logInAlertDialog.show();

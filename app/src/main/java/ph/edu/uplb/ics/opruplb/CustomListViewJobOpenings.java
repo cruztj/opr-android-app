@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 public class CustomListViewJobOpenings extends ArrayAdapter<String> {
 
     private String[] jobOpeningCollegeUnitArray;
@@ -25,22 +27,32 @@ public class CustomListViewJobOpenings extends ArrayAdapter<String> {
     private String[] jobOpeningContactPersonArray;
     private Activity context;
 
-   public CustomListViewJobOpenings(Activity context, String[] jobOpeningCollegeUnit, String[] jobOpeningPosition,
-                                    String[] jobOpeningItemNo, String[] jobOpeningMinEducation, String[] jobOpeningMinExperience,
-                                    String[] jobOpeningMinTraning, String[] jobOpeningMinEligibility, String[] jobOpeningDueDate,
-                                    String[] jobOpeningContactPerson){
+   public CustomListViewJobOpenings(Activity context, ArrayList<String> jobOpeningCollegeUnit, ArrayList<String> jobOpeningPosition,
+                                    ArrayList<String> jobOpeningItemNo, ArrayList<String> jobOpeningMinEducation, ArrayList<String> jobOpeningMinExperience,
+                                    ArrayList<String> jobOpeningMinTraining, ArrayList<String> jobOpeningMinEligibility, ArrayList<String> jobOpeningDueDate,
+                                    ArrayList<String> jobOpeningContactPerson){
        super(context, R.layout.listview_job_layout, jobOpeningCollegeUnit);
 
+       String[] jobOpeningCollegeUnitArray = jobOpeningCollegeUnit.toArray(new String[jobOpeningCollegeUnit.size()]);
+       String[] jobOpeningPositionArray = jobOpeningPosition.toArray(new String[jobOpeningPosition.size()]);
+       String[] jobOpeningItemNoArray = jobOpeningItemNo.toArray(new String[jobOpeningItemNo.size()]);
+       String[] jobOpeningMinEducationArray = jobOpeningMinEducation.toArray(new String[jobOpeningMinEducation.size()]);
+       String[] jobOpeningMinExperienceArray = jobOpeningMinExperience.toArray(new String[jobOpeningMinExperience.size()]);
+       String[] jobOpeningMinTrainingArray = jobOpeningMinTraining.toArray(new String[jobOpeningMinTraining.size()]);
+       String[] jobOpeningMinEligibilityArray = jobOpeningMinEligibility.toArray(new String[jobOpeningMinEligibility.size()]);
+       String[] jobOpeningDueDateArray = jobOpeningDueDate.toArray(new String[jobOpeningDueDate.size()]);
+       String[] jobOpeningContactPersonArray = jobOpeningContactPerson.toArray(new String[jobOpeningContactPerson.size()]);
+
        this.context = context;
-       this.jobOpeningCollegeUnitArray = jobOpeningCollegeUnit;
-       this.jobOpeningPositionArray = jobOpeningPosition;
-       this.jobOpeningItemNoArray = jobOpeningItemNo;
-       this.jobOpeningMinEducationArray = jobOpeningMinEducation;
-       this.jobOpeningMinExperienceArray = jobOpeningMinExperience;
-       this.jobOpeningMinTrainingArray = jobOpeningMinTraning;
-       this.jobOpeningMinEligibilityArray = jobOpeningMinEligibility;
-       this.jobOpeningDueDateArray = jobOpeningDueDate;
-       this.jobOpeningContactPersonArray = jobOpeningContactPerson;
+       this.jobOpeningCollegeUnitArray = jobOpeningCollegeUnitArray;
+       this.jobOpeningPositionArray = jobOpeningPositionArray;
+       this.jobOpeningItemNoArray = jobOpeningItemNoArray;
+       this.jobOpeningMinEducationArray = jobOpeningMinEducationArray;
+       this.jobOpeningMinExperienceArray = jobOpeningMinExperienceArray;
+       this.jobOpeningMinTrainingArray = jobOpeningMinTrainingArray;
+       this.jobOpeningMinEligibilityArray = jobOpeningMinEligibilityArray;
+       this.jobOpeningDueDateArray = jobOpeningDueDateArray;
+       this.jobOpeningContactPersonArray = jobOpeningContactPersonArray;
    }
 
     @NonNull
@@ -58,13 +70,13 @@ public class CustomListViewJobOpenings extends ArrayAdapter<String> {
         }
         viewHolder.jobCollegeUnit.setText(jobOpeningCollegeUnitArray[position]);
         viewHolder.jobPosition.setText(jobOpeningPositionArray[position]);
-        viewHolder.jobItemNo.setText(jobOpeningItemNoArray[position]);
-        viewHolder.jobMinEducation.setText(jobOpeningMinEducationArray[position]);
-        viewHolder.jobMinExperience.setText(jobOpeningMinExperienceArray[position]);
-        viewHolder.jobMinTraining.setText(jobOpeningMinTrainingArray[position]);
-        viewHolder.jobMinEligibility.setText(jobOpeningMinEligibilityArray[position]);
-        viewHolder.jobDueDate.setText(jobOpeningDueDateArray[position]);
-        viewHolder.jobContactPerson.setText(jobOpeningContactPersonArray[position]);
+//        viewHolder.jobItemNo.setText(jobOpeningItemNoArray[position]);
+//        viewHolder.jobMinEducation.setText(jobOpeningMinEducationArray[position]);
+//        viewHolder.jobMinExperience.setText(jobOpeningMinExperienceArray[position]);
+//        viewHolder.jobMinTraining.setText(jobOpeningMinTrainingArray[position]);
+//        viewHolder.jobMinEligibility.setText(jobOpeningMinEligibilityArray[position]);
+//        viewHolder.jobDueDate.setText(jobOpeningDueDateArray[position]);
+//        viewHolder.jobContactPerson.setText(jobOpeningContactPersonArray[position]);
 
         return view;
     }
@@ -73,24 +85,24 @@ public class CustomListViewJobOpenings extends ArrayAdapter<String> {
     class ViewHolderJobOpenings{
         TextView jobCollegeUnit;
         TextView jobPosition;
-        TextView jobItemNo;
-        TextView jobMinEducation;
-        TextView jobMinExperience;
-        TextView jobMinTraining;
-        TextView jobMinEligibility;
-        TextView jobDueDate;
-        TextView jobContactPerson;
+//        TextView jobItemNo;
+//        TextView jobMinEducation;
+//        TextView jobMinExperience;
+//        TextView jobMinTraining;
+//        TextView jobMinEligibility;
+//        TextView jobDueDate;
+//        TextView jobContactPerson;
 
         ViewHolderJobOpenings(View view){
             jobCollegeUnit = view.findViewById(R.id.jobOpeningCollegeUnitTextView);
             jobPosition = view.findViewById(R.id.jobOpeningPositionTextView);
-            jobItemNo = view.findViewById(R.id.jobOpeningItemNoTextView);
-            jobMinEducation = view.findViewById(R.id.jobOpeningMinEducationTextView);
-            jobMinExperience = view.findViewById(R.id.jobOpeningMinExperienceTextView);
-            jobMinTraining = view.findViewById(R.id.jobOpeningMinTrainingTextView);
-            jobMinEligibility = view.findViewById(R.id.jobOpeningMinEligibilityTextView);
-            jobDueDate = view.findViewById(R.id.jobOpeningDueDateTextView);
-            jobContactPerson = view.findViewById(R.id.jobOpeningContactPersonTextView);
+//            jobItemNo = view.findViewById(R.id.jobOpeningItemNoTextView);
+//            jobMinEducation = view.findViewById(R.id.jobOpeningMinEducationTextView);
+//            jobMinExperience = view.findViewById(R.id.jobOpeningMinExperienceTextView);
+//            jobMinTraining = view.findViewById(R.id.jobOpeningMinTrainingTextView);
+//            jobMinEligibility = view.findViewById(R.id.jobOpeningMinEligibilityTextView);
+//            jobDueDate = view.findViewById(R.id.jobOpeningDueDateTextView);
+//            jobContactPerson = view.findViewById(R.id.jobOpeningContactPersonTextView);
         }
     }
 

@@ -7,28 +7,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
 public class JobOpenings extends AppCompatActivity {
 
     private ImageButton backButton;
-    private ListView listView;
+    static ListView listView;
     private TabLayout tabLayout;
-
-    //TODO: Use a function to get these from the website
-    String[] jobOpeningCollegeUnitArray = {"CAS", "CA", "CEM"};
-    String[] jobOpeningPositionArray = {"Professor", "Assistant Professor", "Lecturer"};
-    String[] jobOpeningItemNoArray = {"Item-1", "Item-2", "Item-3"};
-    String[] jobOpeningMinEducationArray = {"College", "High School", "None"};
-    String[] jobOpeningMinExperienceArray = {"None", "None", "Star Wars"};
-    String[] jobOpeningMinTrainingArray = {"Four Hours", "Ten Hours", "Thirty Minutes"};
-    String[] jobOpeningMinEligibilityArray = {"Sub Prof", "Sub Prof", "Sub Prof"};
-    String[] jobOpeningDueDateArray = {"1/2/2018", "1/9/2018", "1/6/2018"};
-    String[] jobOpeningContactPersonArray = {"Kuya Will", "Ina Ganda", "Nigguh"};
-
-
+    private FetchDataJobs fetchData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +29,17 @@ public class JobOpenings extends AppCompatActivity {
         backButton = (ImageButton) findViewById(R.id.backButton);
         listView = (ListView) findViewById(R.id.listViewJobOpenings);
 
-        initLayout();
 
-        //get jobOpenings data
+        fetchData = new FetchDataJobs(this, 0);
+        fetchData.execute();
+
+        initLayout();
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
+                fetchData = new FetchDataJobs(JobOpenings.this, tab.getPosition());
+                fetchData.execute();
             }
 
             @Override
@@ -62,12 +55,6 @@ public class JobOpenings extends AppCompatActivity {
     }
 
     private void initLayout(){
-        CustomListViewJobOpenings customListViewJobOpenings = new CustomListViewJobOpenings(this, jobOpeningCollegeUnitArray,
-                jobOpeningPositionArray, jobOpeningItemNoArray, jobOpeningMinEducationArray, jobOpeningMinExperienceArray,
-                jobOpeningMinTrainingArray, jobOpeningMinEligibilityArray, jobOpeningDueDateArray, jobOpeningContactPersonArray);
-        listView.setDivider(null);
-        listView.setAdapter(customListViewJobOpenings);
-
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +67,22 @@ public class JobOpenings extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //create popUp displaying other details and an I'm Interested Button
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent intent = new Intent(JobOpenings.this, PopUpActivityJobs.class);
+                        intent.putExtra("unit", fetchData.getUnit(position));
+                        intent.putExtra("position", fetchData.getPosition(position));
+                        intent.putExtra("itemNumber", fetchData.getItemNum(position));
+                        intent.putExtra("minEducation", fetchData.getMinEduc(position));
+                        intent.putExtra("minExperience", fetchData.getMinExp(position));
+                        intent.putExtra("minTraining", fetchData.getMinTraining(position));
+                        intent.putExtra("minEligibility", fetchData.getMinEligibility(position));
+                        intent.putExtra("dueDate", fetchData.getDueDate(position));
+                        intent.putExtra("contactPerson", fetchData.getContactPerson(position));
+                        startActivity(intent);
+                    }
+                });
             }
         });
 

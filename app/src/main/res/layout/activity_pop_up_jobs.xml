@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PopUpActivityJobs" >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:text="College/Unit"
+                android:id="@+id/unitHeader"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:textColor="@color/upBlack"
+                android:layout_below="@id/unitHeader"
+                android:id="@+id/unitTextView" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:text="Position"
+                android:layout_below="@id/unitTextView"
+                android:id="@+id/positionHeader"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="5dp"
+                android:textColor="@color/upBlack"
+                android:layout_below="@id/positionHeader"
+                android:id="@+id/positionTextView" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:text="Item Number"
+                android:layout_below="@id/positionTextView"
+                android:id="@+id/itemNoHeader"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:textColor="@color/upBlack"
+                android:layout_below="@id/itemNoHeader"
+                android:id="@+id/itemNoTextView" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:text="Minimum Education"
+                android:layout_below="@id/itemNoTextView"
+                android:id="@+id/minEducHeader"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:textColor="@color/upBlack"
+                android:layout_below="@id/minEducHeader"
+                android:id="@+id/minEducationTextView" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:text="Minimum Experience"
+                android:layout_below="@id/minEducationTextView"
+                android:id="@+id/minExpHeader"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:textColor="@color/upBlack"
+                android:layout_below="@id/minExpHeader"
+                android:id="@+id/minExperienceTextView" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:text="Minimum Training"
+                android:layout_below="@id/minExperienceTextView"
+                android:id="@+id/minTrainHeader"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:textColor="@color/upBlack"
+                android:layout_below="@id/minTrainHeader"
+                android:id="@+id/minTrainingTextView" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:text="Minimum Eligibility"
+                android:layout_below="@id/minTrainingTextView"
+                android:id="@+id/minEliHeader"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:textColor="@color/upBlack"
+                android:layout_below="@id/minEliHeader"
+                android:id="@+id/minEligibilityTextView" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:text="Due Date"
+                android:layout_below="@id/minEligibilityTextView"
+                android:id="@+id/dueDateHeader"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:textColor="@color/upBlack"
+                android:layout_below="@id/dueDateHeader"
+                android:id="@+id/dueDateTextView" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:text="Contact Person"
+                android:layout_below="@id/dueDateTextView"
+                android:id="@+id/contactPersonHeader"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:textColor="@color/upBlack"
+                android:layout_below="@id/contactPersonHeader"
+                android:id="@+id/contactPersonTextView" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/contactPersonTextView"
+                android:background="@drawable/gradientbackground"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:id="@+id/imInterestedSpace">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:clickable="false"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:src="@drawable/ic_email_black_24dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="I'M INTERESTED"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:textSize="16dp"
+                    android:clickable="false"
+                    android:textColor="@android:color/white"
+                    android:layout_gravity="center_horizontal"/>
+
+            </LinearLayout>
+            <!--<Button-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/contactPersonTextView"-->
+                <!--android:text="I'm Interested"-->
+                <!--android:paddingLeft=""-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:drawableLeft="@drawable/ic_email_black_24dp"-->
+                <!--android:background="@drawable/gradientbackground"-->
+                <!--android:id="@+id/imInterestedButton"/>-->
+        </RelativeLayout >
+    </ScrollView>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:forceHasOverlappingRendering="true"
+        android:src="@drawable/ic_close_black_24dp"
+        android:background="@null"
+        android:id="@+id/closeButton"/>
+</RelativeLayout>

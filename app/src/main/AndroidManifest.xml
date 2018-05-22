@@ -39,6 +39,9 @@
         <activity
             android:name=".PopUpActivity"
             android:theme="@style/AppTheme.CustomTheme" />
+        <activity
+            android:name=".PopUpActivityJobs"
+            android:theme="@style/AppTheme.CustomTheme" />
     </application>
 
 </manifest>
