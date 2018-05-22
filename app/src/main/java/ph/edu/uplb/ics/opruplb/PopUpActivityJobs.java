@@ -1,10 +1,13 @@
 package ph.edu.uplb.ics.opruplb;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,6 +26,16 @@ public class PopUpActivityJobs extends AppCompatActivity {
     private TextView contactPersonTextView;
     private ImageButton closeButton;
     private LinearLayout imInterestedSpace;
+
+    private String unitString;
+    private String positionString;
+    private String itemNumString;
+    private String minEducString;
+    private String minExpString;
+    private String minTrainString;
+    private String minEliString;
+    private String dueDateString;
+    private String contactPersonString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -51,15 +64,15 @@ public class PopUpActivityJobs extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        String unitString = intent.getStringExtra("unit");
-        String positionString = intent.getStringExtra("position");
-        String itemNumString = intent.getStringExtra("itemNumber");
-        String minEducString = intent.getStringExtra("minEducation");
-        String minExpString = intent.getStringExtra("minExperience");
-        String minTrainString = intent.getStringExtra("minTraining");
-        String minEliString = intent.getStringExtra("minEligibility");
-        String dueDateString = intent.getStringExtra("dueDate");
-        String contactPersonString = intent.getStringExtra("contactPerson");
+        unitString = intent.getStringExtra("unit");
+        positionString = intent.getStringExtra("position");
+        itemNumString = intent.getStringExtra("itemNumber");
+        minEducString = intent.getStringExtra("minEducation");
+        minExpString = intent.getStringExtra("minExperience");
+        minTrainString = intent.getStringExtra("minTraining");
+        minEliString = intent.getStringExtra("minEligibility");
+        dueDateString = intent.getStringExtra("dueDate");
+        contactPersonString = intent.getStringExtra("contactPerson");
 
         setPopUpLayout(0.9, 0.93);
 
@@ -76,9 +89,38 @@ public class PopUpActivityJobs extends AppCompatActivity {
         imInterestedSpace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PopUpActivityJobs.this, "IM INTERESTED", Toast.LENGTH_SHORT).show();
+                sendEmail();
             }
         });
+    }
+
+    protected void sendEmail() {
+        String emailText = "";
+        Log.i("Send email", "");
+
+        emailText = "Good Day! \n\n I am interested for the position: " +positionString+ " for the " +unitString+
+            " with Item Number " +itemNumString+ ".\n\nI would like to know if it is still available." +
+            "\n\nThank You,\n\nName: \nContact Number: ";
+
+
+        String[] TO = {"hrdo.uplb@up.edu.ph"};
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("text/plain");
+
+
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Job Application. Reply to Job Offer using eUPLB");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, emailText);
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            finish();
+            Log.i("Finished sending email", "");
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(PopUpActivityJobs.this,
+                    "There is no email client installed.", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -89,6 +131,7 @@ public class PopUpActivityJobs extends AppCompatActivity {
         int width = displayMetrics.widthPixels;
         int height = displayMetrics.heightPixels;
 
-        getWindow().setLayout((int)(width*widthMultiplier),(int)(height*heightMultiplier));
+//        getWindow().setLayout((int)(width*widthMultiplier),(int)(height*heightMultiplier));
+        getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 }

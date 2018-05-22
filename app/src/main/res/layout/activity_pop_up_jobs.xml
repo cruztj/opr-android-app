@@ -5,24 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PopUpActivityJobs" >
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:forceHasOverlappingRendering="true"
+        android:src="@drawable/ic_close_black_24dp"
+        android:background="@null"
+        android:id="@+id/closeButton"/>
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent" >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:paddingLeft="5dp"
-                android:paddingTop="5dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="25dp"
                 android:text="College/Unit"
                 android:id="@+id/unitHeader"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:textColor="@color/upBlack"
                 android:layout_below="@id/unitHeader"
                 android:id="@+id/unitTextView" />
@@ -31,7 +43,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingLeft="20dp"
                 android:paddingTop="5dp"
                 android:text="Position"
                 android:layout_below="@id/unitTextView"
@@ -40,7 +52,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:paddingLeft="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:textColor="@color/upBlack"
                 android:layout_below="@id/positionHeader"
                 android:id="@+id/positionTextView" />
@@ -49,7 +62,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingLeft="20dp"
                 android:paddingTop="5dp"
                 android:text="Item Number"
                 android:layout_below="@id/positionTextView"
@@ -57,7 +70,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:textColor="@color/upBlack"
                 android:layout_below="@id/itemNoHeader"
                 android:id="@+id/itemNoTextView" />
@@ -66,7 +80,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingLeft="20dp"
                 android:paddingTop="5dp"
                 android:text="Minimum Education"
                 android:layout_below="@id/itemNoTextView"
@@ -74,7 +88,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:textColor="@color/upBlack"
                 android:layout_below="@id/minEducHeader"
                 android:id="@+id/minEducationTextView" />
@@ -83,7 +98,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingLeft="20dp"
                 android:paddingTop="5dp"
                 android:text="Minimum Experience"
                 android:layout_below="@id/minEducationTextView"
@@ -91,7 +106,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:textColor="@color/upBlack"
                 android:layout_below="@id/minExpHeader"
                 android:id="@+id/minExperienceTextView" />
@@ -100,7 +116,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingLeft="20dp"
                 android:paddingTop="5dp"
                 android:text="Minimum Training"
                 android:layout_below="@id/minExperienceTextView"
@@ -108,7 +124,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:textColor="@color/upBlack"
                 android:layout_below="@id/minTrainHeader"
                 android:id="@+id/minTrainingTextView" />
@@ -117,7 +134,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingLeft="20dp"
                 android:paddingTop="5dp"
                 android:text="Minimum Eligibility"
                 android:layout_below="@id/minTrainingTextView"
@@ -125,7 +142,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:textColor="@color/upBlack"
                 android:layout_below="@id/minEliHeader"
                 android:id="@+id/minEligibilityTextView" />
@@ -134,7 +152,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingLeft="20dp"
                 android:paddingTop="5dp"
                 android:text="Due Date"
                 android:layout_below="@id/minEligibilityTextView"
@@ -142,7 +160,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:textColor="@color/upBlack"
                 android:layout_below="@id/dueDateHeader"
                 android:id="@+id/dueDateTextView" />
@@ -151,7 +170,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingLeft="20dp"
                 android:paddingTop="5dp"
                 android:text="Contact Person"
                 android:layout_below="@id/dueDateTextView"
@@ -159,7 +178,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="20dp"
                 android:textColor="@color/upBlack"
                 android:layout_below="@id/contactPersonHeader"
                 android:id="@+id/contactPersonTextView" />
@@ -196,25 +217,6 @@
                     android:layout_gravity="center_horizontal"/>
 
             </LinearLayout>
-            <!--<Button-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_below="@id/contactPersonTextView"-->
-                <!--android:text="I'm Interested"-->
-                <!--android:paddingLeft=""-->
-                <!--android:textColor="@android:color/white"-->
-                <!--android:drawableLeft="@drawable/ic_email_black_24dp"-->
-                <!--android:background="@drawable/gradientbackground"-->
-                <!--android:id="@+id/imInterestedButton"/>-->
         </RelativeLayout >
     </ScrollView>
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:forceHasOverlappingRendering="true"
-        android:src="@drawable/ic_close_black_24dp"
-        android:background="@null"
-        android:id="@+id/closeButton"/>
 </RelativeLayout>

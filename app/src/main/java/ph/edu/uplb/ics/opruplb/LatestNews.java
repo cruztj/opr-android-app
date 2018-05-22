@@ -4,14 +4,10 @@ import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 
 public class LatestNews extends AppCompatActivity {
 
@@ -65,7 +61,7 @@ public class LatestNews extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(LatestNews.this, PopUpActivity.class);
+                Intent intent = new Intent(LatestNews.this, PopUpActivityNews.class);
                 intent.putExtra("urlString", fetchData.getUrlString(position+1));
                 intent.putExtra("titleString", fetchData.getTitleString(position));
                 startActivity(intent);

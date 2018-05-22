@@ -3,6 +3,7 @@ package ph.edu.uplb.ics.opruplb;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,12 +46,14 @@ public class FetchDataJobs extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... voids) {
 //        10.0.2.2 is localhost for android emulator
-        urlString = "http://10.0.2.2/publicrelations/UPLBJobPosting.php";
+//        urlString = "http://10.0.2.2/publicrelations/UPLBJobPosting.php";
+        urlString = "http://192.168.1.160/publicrelations/UPLBJobPosting.php";
 
         try{
             URL url = new URL(urlString);
 
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+//            httpURLConnection.setRequestMethod("GET");
             InputStream inputStream = httpURLConnection.getInputStream();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String line = "";
@@ -78,17 +81,21 @@ public class FetchDataJobs extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
 
-        try {
-            parseData(dataArray[tabPosition]);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        if(!data.isEmpty()) {
+            try {
+                parseData(dataArray[tabPosition]);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        CustomListViewJobOpenings customListViewJobOpenings = new CustomListViewJobOpenings(context, unitList,
-                positionList, itemnumberList, mineducationList, minexperienceList, mintrainingList,
-                mineligibilityList, duedateList, contactpersonList);
-        JobOpenings.listView.setDivider(null);
-        JobOpenings.listView.setAdapter(customListViewJobOpenings);
+            CustomListViewJobOpenings customListViewJobOpenings = new CustomListViewJobOpenings(context, unitList,
+                    positionList, itemnumberList, mineducationList, minexperienceList, mintrainingList,
+                    mineligibilityList, duedateList, contactpersonList);
+            JobOpenings.listView.setDivider(null);
+            JobOpenings.listView.setAdapter(customListViewJobOpenings);
+        } else{
+            Toast.makeText(context, "Error in getting data from server", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void parseData(String data) throws JSONException {
@@ -97,20 +104,41 @@ public class FetchDataJobs extends AsyncTask<Void, Void, Void> {
             JSONObject JO = (JSONObject) JA.get(i);
             this.unitList.add(JO.getString("unit").trim().replaceAll(" +", " "));
             this.positionList.add(JO.getString("position").trim().replaceAll(" +", " "));
-            this.itemnumberList.add(JO.getString("itemnumber").trim().replaceAll(" +", " "));
-            this.mineducationList.add(JO.getString("mineducation").trim().replaceAll(" +", " "));
-            this.minexperienceList.add(JO.getString("minexperience").trim().replaceAll(" +", " "));
-            this.mintrainingList.add(JO.getString("mintraining").trim().replaceAll(" +", " "));
-            this.mineligibilityList.add(JO.getString("mineligibility").trim().replaceAll(" +", " "));
+            this.itemnumberList.add(editItemNumIfEmpty(JO.getString("itemnumber").trim().replaceAll(" +", " ")));
+            this.mineducationList.add(editIfEmpty(JO.getString("mineducation").trim().replaceAll(" +", " ")));
+            this.minexperienceList.add(editIfEmpty(JO.getString("minexperience").trim().replaceAll(" +", " ")));
+            this.mintrainingList.add(editIfEmpty(JO.getString("mintraining").trim().replaceAll(" +", " ")));
+            this.mineligibilityList.add(editIfEmpty(JO.getString("mineligibility").trim().replaceAll(" +", " ")));
             this.duedateList.add(JO.getString("duedate").trim().replaceAll(" +", " "));
             this.contactpersonList.add(JO.getString("contactperson").trim().replaceAll(" +", " ")
                     .replaceAll(" Dean", "\nDean")
+                    .replaceAll(" DEAN", "\nDEAN")
                     .replaceAll(" Head", "\nHead")
+                    .replaceAll(" HEAD", "\nHEAD")
                     .replaceAll(" Institute", "\nInstitute")
                     .replaceAll(" College", "\nCollege")
                     .replaceAll(" Office", "\nOffice")
+                    .replaceAll(" CHAIR", "\nCHAIR")
+                    .replaceAll(" Principal", "\nPrincipal")
+                    .replaceAll(" Director", "\nDirector")
+                    .replaceAll(" Vice", "\nVice")
+                    .replaceAll(" OIC", "\nOIC")
+                    .replaceAll(" University", "\nUniversity")
+                    .replaceAll(" Assistant", "\nAssistant")
+                    .replaceAll(" Chancellor", "\nChancellor")
+                    .replaceAll(" Chief", "\nChief")
                     .replaceAll(" Chair", "\nChair"));
         }
+    }
+
+    private String editItemNumIfEmpty(String string){
+        if(string.isEmpty()) return "-";
+        else return string;
+    }
+
+    private String editIfEmpty(String string){
+        if(string.isEmpty()) return "None required";
+        else return string;
     }
 
 

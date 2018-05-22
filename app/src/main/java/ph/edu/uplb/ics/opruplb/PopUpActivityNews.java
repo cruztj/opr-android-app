@@ -10,7 +10,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 
-public class PopUpActivity extends AppCompatActivity {
+public class PopUpActivityNews extends AppCompatActivity {
 
     private ImageButton closeButton;
     private WebView webview;

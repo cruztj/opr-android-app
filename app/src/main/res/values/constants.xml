@@ -7,5 +7,14 @@
     <dimen name="headerTextSize">25sp</dimen>
     <dimen name="backButtonMarginLeft">15dp</dimen>
 
+    <!--<string name="urlAnnouncements">http://192.168.1.160:3001/announcements</string>-->
+
+    <!--&lt;!&ndash;10.0.2.2 is localhost for android emulator&ndash;&gt;-->
+    <!--<String name="urlJobs">http://10.0.2.2/publicrelations/UPLBJobPosting.php</String>-->
+
+    <!--<string name="urlNewsAcademic">https://uplb.edu.ph/component/k2/itemlist?format=feed&amp;moduleID=279</string>-->
+    <!--<string name="urlNewsResearch">https://uplb.edu.ph/component/k2/itemlist?format=feed&amp;moduleID=282</string>-->
+    <!--<string name="urlNewsCampus">https://uplb.edu.ph/component/k2/itemlist?format=feed&amp;moduleID=280</string>-->
+    <!--<string name="urlNewsCommunity">https://uplb.edu.ph/component/k2/itemlist?format=feed&amp;moduleID=283</string>-->
 
 </resources>

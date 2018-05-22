@@ -3,6 +3,7 @@ package ph.edu.uplb.ics.opruplb;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,15 +59,19 @@ public class FetchDataAnnouncements extends AsyncTask<Void, Void, Void>{
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
 
-        try {
-            parseData(data);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        if(!data.isEmpty()) {
+            try {
+                parseData(data);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        CustomListViewAnnouncements customListViewAnnouncements = new CustomListViewAnnouncements(context, postTitle, timeStamp, postContent);
-        StudentAnnouncements.listView.setDivider(null);
-        StudentAnnouncements.listView.setAdapter(customListViewAnnouncements);
+            CustomListViewAnnouncements customListViewAnnouncements = new CustomListViewAnnouncements(context, postTitle, timeStamp, postContent);
+            StudentAnnouncements.listView.setDivider(null);
+            StudentAnnouncements.listView.setAdapter(customListViewAnnouncements);
+        }else{
+            Toast.makeText(context, "Error in getting data from server", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void parseData(String data) throws JSONException {
