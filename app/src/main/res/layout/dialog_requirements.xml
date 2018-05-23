@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="REQUIREMENTS"
+        android:textSize="25sp"
+        android:paddingBottom="10dp"
+        android:fontFamily="@string/headerFont"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:drawablePadding="5dp"
+        android:drawableLeft="@drawable/ic_radio_button_checked_black_24dp"
+        android:text="Application letter addressed to the UPLB Chancellor"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:drawablePadding="5dp"
+        android:drawableLeft="@drawable/ic_radio_button_checked_black_24dp"
+        android:text="Personal Data Sheet"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:drawablePadding="5dp"
+        android:drawableLeft="@drawable/ic_radio_button_checked_black_24dp"
+        android:text="Diploma"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:drawablePadding="5dp"
+        android:drawableLeft="@drawable/ic_radio_button_checked_black_24dp"
+        android:text="Transcript of Records"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:drawablePadding="5dp"
+        android:drawableLeft="@drawable/ic_radio_button_checked_black_24dp"
+        android:text="Eligibility (Certified Authenticated Copy)"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:drawablePadding="5dp"
+        android:drawableLeft="@drawable/ic_radio_button_checked_black_24dp"
+        android:text="NBI Clearance"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:drawablePadding="5dp"
+        android:drawableLeft="@drawable/ic_radio_button_checked_black_24dp"
+        android:text="Certificate of employment from present/previous employer"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:drawablePadding="5dp"
+        android:drawableLeft="@drawable/ic_radio_button_checked_black_24dp"
+        android:text="Birth Certificate (PSA Authenticated)"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:drawablePadding="5dp"
+        android:paddingBottom="10dp"
+        android:drawableLeft="@drawable/ic_radio_button_checked_black_24dp"
+        android:text="Photocopy of trainings attended"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PROCEED"
+        android:textColor="@android:color/white"
+        android:background="@drawable/gradientbackground"
+        android:id="@+id/proceedButton"/>
+
+
+</LinearLayout>

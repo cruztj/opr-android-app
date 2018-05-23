@@ -3,11 +3,13 @@ package ph.edu.uplb.ics.opruplb;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -89,7 +91,23 @@ public class PopUpActivityJobs extends AppCompatActivity {
         imInterestedSpace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendEmail();
+                AlertDialog.Builder contactDialogBuilder = new AlertDialog.Builder(PopUpActivityJobs.this);
+                View contactView = getLayoutInflater().inflate(R.layout.dialog_requirements, null);
+
+                contactDialogBuilder.setView(contactView);
+
+
+                Button proceedButton = (Button) contactView.findViewById(R.id.proceedButton);
+
+                proceedButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        sendEmail();
+                    }
+                });
+
+                AlertDialog contactAlertDialog = contactDialogBuilder.create();
+                contactAlertDialog.show();
             }
         });
     }
