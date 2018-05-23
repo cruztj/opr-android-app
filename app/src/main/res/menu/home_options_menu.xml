@@ -15,5 +15,10 @@
         android:orderInCategory="3"
         android:id="@+id/menuAbout" />
 
+    <item
+        android:title="Log Out"
+        android:orderInCategory="4"
+        android:id="@+id/menuLogOut" />
+
 
 </menu>

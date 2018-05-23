@@ -2,7 +2,6 @@ package ph.edu.uplb.ics.opruplb;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,19 +20,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-
-import org.apache.http.auth.AUTH;
 
 
 public class MainActivity extends AppCompatActivity{
@@ -41,7 +37,7 @@ public class MainActivity extends AppCompatActivity{
     private static final int RC_SIGN_IN = 1;
     private GoogleApiClient mGoogleApiClient;
     private GoogleSignInClient mGoogleSignInClient;
-    private boolean loggedInFlag = false;
+    private boolean loggedInStudentFlag = false;
 
     private Button latestNewsButton;
     private Button jobOpeningsButton;
@@ -65,6 +61,17 @@ public class MainActivity extends AppCompatActivity{
 
         mAuth = FirebaseAuth.getInstance();
 
+
+        if(mAuth.getCurrentUser() != null) {
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            String email[] = currentUser.getEmail().split("@");
+            if (!email[1].equals("up.edu.ph")) {
+                loggedInStudentFlag = false;
+                signOut();
+                Toast.makeText(MainActivity.this, "Please use UP Mail", Toast.LENGTH_LONG).show();
+            }
+        }
+
         initLayout();
     }
 
@@ -73,11 +80,23 @@ public class MainActivity extends AppCompatActivity{
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            loggedInFlag = true;
-//          updateUI(currentUser);
+        if(currentUser != null) {
+            FirebaseUser currentFirebaseUser = mAuth.getCurrentUser();
+            String email[] = currentFirebaseUser.getEmail().split("@");
+            if (!email[1].equals("up.edu.ph")) {
+                loggedInStudentFlag = false;
+                signOut();
+                Toast.makeText(MainActivity.this, "Please use UP Mail", Toast.LENGTH_LONG).show();
+            } else if(email[1].equals("up.edu.ph")){
+                loggedInStudentFlag = true;
+//              updateUI(currentUser);
+            }
         }
+    }
 
+    private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     @Override
@@ -91,7 +110,6 @@ public class MainActivity extends AppCompatActivity{
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
-                loggedInFlag = true;
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w("onActivityResult", "Google sign in failed", e);
@@ -100,19 +118,29 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d("firebaseAuthWithGoogle", "firebaseAuthWithGoogle:" + acct.getId());
+    private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            loggedInFlag = true;
-                            Log.d("AuthCredential", "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-//                            updateUI(user);
+                            //check domain name first
+                            Log.d("Acct email",acct.getEmail());
+                            String emailSplit[] = acct.getEmail().split("@");
+                            if(!emailSplit[1].equals("up.edu.ph")){
+                                signOut();
+                                Toast.makeText(MainActivity.this, "Please use UP Mail", Toast.LENGTH_LONG).show();
+                            } else if(emailSplit[1].equals("up.edu.ph")){
+                                // Sign in success, update UI with the signed-in user's information
+                                loggedInStudentFlag = true;
+                                Log.d("AuthCredential", "signInWithCredential:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                Intent intent = new Intent(MainActivity.this, StudentAnnouncements.class);
+                                startActivity(intent);
+
+//                                updateUI(user);
+                            }
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("AuthCredential", "signInWithCredential:failure", task.getException());
@@ -122,15 +150,10 @@ public class MainActivity extends AppCompatActivity{
                 });
     }
 
-    private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
     private void signOut() {
         // Firebase sign out
         mAuth.signOut();
-        loggedInFlag = false;
+        loggedInStudentFlag = false;
 
         // Google sign out
         mGoogleSignInClient.signOut().addOnCompleteListener(this,
@@ -168,7 +191,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 signIn();
-                if(loggedInFlag){
+                if(loggedInStudentFlag == true){
                     Intent intent = new Intent(MainActivity.this, StudentAnnouncements.class);
                     startActivity(intent);
                 }
@@ -242,6 +265,12 @@ public class MainActivity extends AppCompatActivity{
                         aboutAlertDialog.show();
 
                         return true;
+
+                    case R.id.menuLogOut:
+                        signOut();
+                        Toast.makeText(MainActivity.this, "Successfully logged out", Toast.LENGTH_SHORT).show();
+
+                        return true;
                     default:
                         return false;
                 }
@@ -275,6 +304,8 @@ public class MainActivity extends AppCompatActivity{
             passwordEditText.requestFocus();
             return;
         }
+
+
 
         mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
