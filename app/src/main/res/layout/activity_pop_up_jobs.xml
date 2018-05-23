@@ -6,16 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".PopUpActivityJobs" >
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:forceHasOverlappingRendering="true"
-        android:src="@drawable/ic_close_black_24dp"
-        android:background="@null"
-        android:id="@+id/closeButton"/>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -219,4 +209,15 @@
             </LinearLayout>
         </RelativeLayout >
     </ScrollView>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:forceHasOverlappingRendering="true"
+        android:src="@drawable/ic_close_black_24dp"
+        android:background="@null"
+        android:id="@+id/closeButton"/>
+
 </RelativeLayout>

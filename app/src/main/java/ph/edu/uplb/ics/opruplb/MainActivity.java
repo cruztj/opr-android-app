@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -100,7 +101,19 @@ public class MainActivity extends AppCompatActivity{
                         logInButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                authenticateLogIn(emailEditText, passwordEditText);
+
+                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                if (user != null) {
+                                    // User is signed in
+                                    Intent i = new Intent(MainActivity.this, AdminPage.class);
+                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(i);
+                                } else {
+                                    authenticateLogIn(emailEditText, passwordEditText);
+                                }
+
+
+//                                authenticateLogIn(emailEditText, passwordEditText);
                             }
                         });
 
@@ -158,7 +171,7 @@ public class MainActivity extends AppCompatActivity{
             emailEditText.requestFocus();
             return;
         }
-        if(pass.length() < 8){
+        if(pass.length() < 8) {
             passwordEditText.setError("Password should be at least 8 characters");
             passwordEditText.requestFocus();
             return;
@@ -170,7 +183,6 @@ public class MainActivity extends AppCompatActivity{
                 if (task.isSuccessful()) {
                     Log.d("USER SIGN IN", "signInWithEmail:success");
                     FirebaseUser user = mAuth.getCurrentUser();
-
                     Intent intent = new Intent(MainActivity.this, AdminPage.class);
                     startActivity(intent);
                 } else {

@@ -66,23 +66,17 @@ public class JobOpenings extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //create popUp displaying other details and an I'm Interested Button
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent intent = new Intent(JobOpenings.this, PopUpActivityJobs.class);
-                        intent.putExtra("unit", fetchData.getUnit(position));
-                        intent.putExtra("position", fetchData.getPosition(position));
-                        intent.putExtra("itemNumber", fetchData.getItemNum(position));
-                        intent.putExtra("minEducation", fetchData.getMinEduc(position));
-                        intent.putExtra("minExperience", fetchData.getMinExp(position));
-                        intent.putExtra("minTraining", fetchData.getMinTraining(position));
-                        intent.putExtra("minEligibility", fetchData.getMinEligibility(position));
-                        intent.putExtra("dueDate", fetchData.getDueDate(position));
-                        intent.putExtra("contactPerson", fetchData.getContactPerson(position));
-                        startActivity(intent);
-                    }
-                });
+                Intent intent = new Intent(JobOpenings.this, PopUpActivityJobs.class);
+                intent.putExtra("unit", fetchData.getUnit(position));
+                intent.putExtra("position", fetchData.getPosition(position));
+                intent.putExtra("itemNumber", fetchData.getItemNum(position));
+                intent.putExtra("minEducation", fetchData.getMinEduc(position));
+                intent.putExtra("minExperience", fetchData.getMinExp(position));
+                intent.putExtra("minTraining", fetchData.getMinTraining(position));
+                intent.putExtra("minEligibility", fetchData.getMinEligibility(position));
+                intent.putExtra("dueDate", fetchData.getDueDate(position));
+                intent.putExtra("contactPerson", fetchData.getContactPerson(position));
+                startActivity(intent);
             }
         });
 

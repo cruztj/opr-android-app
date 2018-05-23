@@ -1,5 +1,6 @@
 package ph.edu.uplb.ics.opruplb;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -16,7 +17,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class FetchDataAnnouncements extends AsyncTask<Void, Void, Void>{
     String data = "";
@@ -25,6 +31,7 @@ public class FetchDataAnnouncements extends AsyncTask<Void, Void, Void>{
     private ArrayList<String> postTitle = new ArrayList<String>();
     private ArrayList<String> timeStamp = new ArrayList<String>();
     private ArrayList<String> postContent = new ArrayList<String>();
+    private ArrayList<String> postLink = new ArrayList<String>();
 
 
     public FetchDataAnnouncements(Activity context){
@@ -46,6 +53,7 @@ public class FetchDataAnnouncements extends AsyncTask<Void, Void, Void>{
                 line = bufferedReader.readLine();
                 data = data + line;
             }
+            Log.d("ParseDataAnnouncements", data);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -63,10 +71,14 @@ public class FetchDataAnnouncements extends AsyncTask<Void, Void, Void>{
             try {
                 parseData(data);
             } catch (JSONException e) {
+                Log.d("JSONException", e.toString());
+                e.printStackTrace();
+            } catch (ParseException e) {
+                Log.d("ParseException", e.toString());
                 e.printStackTrace();
             }
 
-            CustomListViewAnnouncements customListViewAnnouncements = new CustomListViewAnnouncements(context, postTitle, timeStamp, postContent);
+            CustomListViewAnnouncements customListViewAnnouncements = new CustomListViewAnnouncements(context, postTitle, timeStamp, postContent, postLink);
             StudentAnnouncements.listView.setDivider(null);
             StudentAnnouncements.listView.setAdapter(customListViewAnnouncements);
         }else{
@@ -74,13 +86,14 @@ public class FetchDataAnnouncements extends AsyncTask<Void, Void, Void>{
         }
     }
 
-    private void parseData(String data) throws JSONException {
+    private void parseData(String data) throws JSONException, ParseException {
         JSONArray JA = new JSONArray(data);
-        for (int i = JA.length()-1; i > 0; i--) {
+        for (int i = JA.length()-1; i >= 0; i--) {
             JSONObject JO = (JSONObject) JA.get(i);
             this.postTitle.add(JO.getString("announcement_title"));
             this.postContent.add(JO.getString("announcement_text"));
             this.timeStamp.add(JO.getString("announcement_date_schedule"));
+            this.postLink.add(JO.getString("announcement_link"));
         }
     }
 }
