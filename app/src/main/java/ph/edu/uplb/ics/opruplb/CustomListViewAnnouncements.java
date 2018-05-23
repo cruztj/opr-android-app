@@ -53,7 +53,10 @@ public class CustomListViewAnnouncements extends ArrayAdapter<String> {
         viewHolder.postTitleTextView.setText(postTitle[position]);
         viewHolder.postTimeStampTextView.setText(timeStamp[position]);
         viewHolder.postContentTextView.setText(postContent[position]);
-        viewHolder.postLinkTextView.setText(postLink[position]);
+        if(postLink[position].equals("null"))
+            viewHolder.postLinkTextView.setText("");
+        else
+            viewHolder.postLinkTextView.setText(postLink[position]);
 
         return view;
     }

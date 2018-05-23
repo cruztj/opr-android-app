@@ -48,6 +48,7 @@ public class FetchDataJobs extends AsyncTask<Void, Void, Void> {
 //        10.0.2.2 is localhost for android emulator
 //        urlString = "http://10.0.2.2/publicrelations/UPLBJobPosting.php";
         urlString = "http://192.168.1.160/publicrelations/UPLBJobPosting.php";
+//        urlString = "http://10.0.3.42/publicrelations/UPLBJobPosting.php";
 
         try{
             URL url = new URL(urlString);

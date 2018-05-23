@@ -41,6 +41,8 @@ public class FetchDataAnnouncements extends AsyncTask<Void, Void, Void>{
     @Override
     protected Void doInBackground(Void... voids) {
         String urlString = "http://192.168.1.160:3001/announcements";
+//        String urlString = "http://10.0.3.42:3001/announcements";
+
 
         try {
             URL url = new URL(urlString);

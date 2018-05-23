@@ -311,6 +311,7 @@ public class AdminPage extends AppCompatActivity {
 
     private String getServerResponse(String json) throws IOException {
         String url = "http://192.168.1.160:3001/announcements";
+//        String url = "http://10.0.3.42:3001/announcements";
 
         HttpPost post = new HttpPost(url);
         StringEntity entity = new StringEntity(json);
@@ -330,30 +331,22 @@ public class AdminPage extends AppCompatActivity {
     private JSONObject createJSONObject(EditText postTitleEditText, EditText postContentEditText, EditText postLinkEditText) throws JSONException {
         String postTitle = postTitleEditText.getText().toString().trim();
         String postContent = postContentEditText.getText().toString().trim();
-//        String dateTime = getCurrentDateTime();
         String postLink = postLinkEditText.getText().toString().trim();
-        String admin = mAuth.getCurrentUser().toString();
+//        String admin = mAuth.getCurrentUser().toString();
+        FirebaseUser user = mAuth.getCurrentUser();
+        String admin = user.getEmail().toString();
+        if(postLink.isEmpty())
+            postLink = "null";
 
-//        String urlString = "http://192.168.1.160:3001/announcements";
 
         Log.i("AdminPage.getData", "CONNECTING TO API...");
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("announcement_title", postTitle);
         jsonObject.put("announcement_text", postContent);
-//        jsonObject.put("announcement_date_schedule", dateTime);
         jsonObject.put("announcement_link", postLink);
         jsonObject.put("admin", admin);
 
         return jsonObject;
-    }
-
-    public String getCurrentDateTime(){
-        Calendar calendar = Calendar.getInstance();
-        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm");
-//        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMMM dd, YYYY, EEE, h:mm a");
-
-        return simpleDateFormat.format(calendar.getTime());
     }
 }
