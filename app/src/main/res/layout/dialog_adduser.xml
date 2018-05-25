@@ -33,38 +33,6 @@
             android:id="@+id/emailText" />
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:ems="10"
-            android:hint="Password"
-            android:layout_marginTop="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:id="@+id/passwordText"/>
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:ems="10"
-            android:hint="Confirm Password"
-            android:layout_marginTop="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:id="@+id/passwordConfirmText"/>
-    </android.support.design.widget.TextInputLayout>
-
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

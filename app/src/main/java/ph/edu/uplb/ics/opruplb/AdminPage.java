@@ -62,7 +62,7 @@ public class AdminPage extends AppCompatActivity {
     private ImageView imageView;
     private ImageButton optionsButton;
 
-    private File mCurrentPhoto;
+//    private File mCurrentPhoto;
     private FirebaseAuth mAuth;
 
 
@@ -154,14 +154,18 @@ public class AdminPage extends AppCompatActivity {
                         AlertDialog.Builder logInDialogBuilder = new AlertDialog.Builder(AdminPage.this);
                         View addUserView = getLayoutInflater().inflate(R.layout.dialog_adduser, null);
                         final EditText emailEditText = (EditText) addUserView.findViewById(R.id.emailText);
-                        final EditText passwordEditText = (EditText) addUserView.findViewById(R.id.passwordText);
-                        final EditText passwordConfirmEditText = (EditText) addUserView.findViewById(R.id.passwordConfirmText);
                         Button addUserButton = (Button) addUserView.findViewById(R.id.addUserButton);
 
                         addUserButton.setOnClickListener(new View.OnClickListener(){
                             @Override
                             public void onClick(View v){
-                                createUser(emailEditText, passwordEditText, passwordConfirmEditText);
+                                //TODO: create function for sending data to server admin
+                                try {
+                                    sendDataToServerAdmin(createJSONObjectAdmin(emailEditText));
+                                    emailEditText.setText("");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         });
 
@@ -177,111 +181,7 @@ public class AdminPage extends AppCompatActivity {
         });
     }
 
-    public void createUser(EditText emailEditText, EditText passwordEditText, EditText passwordConfirmEditText){
-        String email = emailEditText.getText().toString().trim();
-        String pass = passwordEditText.getText().toString().trim();
-        String passConfirm = passwordConfirmEditText.getText().toString().trim();
-
-        if(email.isEmpty()){
-            emailEditText.setError("Email is required");
-            emailEditText.requestFocus();
-            return;
-        } else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            emailEditText.setError("Please enter a valid email address");
-            emailEditText.requestFocus();
-            return;
-        }
-        if(pass.isEmpty()){
-            passwordEditText.setError("Password is required");
-            passwordEditText.requestFocus();
-            return;
-        }
-        if(passConfirm.isEmpty()){
-            passwordConfirmEditText.setError("Confirm Password is required");
-            passwordConfirmEditText.requestFocus();
-            return;
-        }
-        if(pass.length() < 8){
-            passwordEditText.setError("Password should be at least 8 characters");
-            passwordEditText.requestFocus();
-            return;
-        } else if(!pass.equals(passConfirm)){
-            passwordEditText.setError("Passwords should match");
-            passwordConfirmEditText.setError("Passwords should match");
-            passwordEditText.requestFocus();
-            return;
-        }
-
-        mAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(AdminPage.this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Log.d("USER SIGN UP", "signUpWithEmail:success");
-                    Toast.makeText(AdminPage.this, "User successfully added", Toast.LENGTH_SHORT).show();
-                    FirebaseUser user = mAuth.getCurrentUser();
-
-                    Intent intent = new Intent(AdminPage.this, AdminPage.class);
-                    startActivity(intent);
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w("USER SIGN IN", "signInWithEmail:failure", task.getException());
-                    Toast.makeText(AdminPage.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        switch (requestCode) {
-//            case 0:
-//                if (resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
-//                    String[] filePathColumn = { MediaStore.Images.Media.DATA };
-//                    Cursor cursor = this.getContentResolver().query(data.getData(), filePathColumn, null, null, null);
-//                    if (cursor == null || cursor.getCount() < 1) {
-//                        mCurrentPhoto = null;
-//                        break;
-//                    }
-//                    cursor.moveToFirst();
-//                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//                    if(columnIndex < 0) { // no column index
-//                        mCurrentPhoto = null;
-//                        break;
-//                    }
-//                    mCurrentPhoto = new File(cursor.getString(columnIndex));
-//                    cursor.close();
-//                } else {
-//                    mCurrentPhoto = null;
-//                }
-//                break;
-//            default: Log.d("Image show", "No image");
-//        }
-//
-//        String[] galleryPermissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
-//
-//        final int myVersion = Build.VERSION.SDK_INT;
-//        if (myVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
-//            if (!checkIfAlreadyHasPermission()) {
-//                ActivityCompat.requestPermissions(this,galleryPermissions, 1);
-//            }
-//        }
-//            changeBitmap();
-//
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
-//
-//    private void changeBitmap(){
-//        if (mCurrentPhoto != null) {
-//            Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhoto.getAbsolutePath());
-//            imageView.setImageBitmap(bitmap);
-//        }
-//    }
-//
-//    private boolean checkIfAlreadyHasPermission() {
-//        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-//        return result == PackageManager.PERMISSION_GRANTED;
-//    }
-
+    //Send announcement to server// START
     @SuppressLint("StaticFieldLeak")
     private void sendDataToServer(JSONObject jsonObject){
         final String jsonString = jsonObject.toString();
@@ -349,4 +249,122 @@ public class AdminPage extends AppCompatActivity {
 
         return jsonObject;
     }
+    //Send announcement to server// END
+
+
+
+    //Send admin to server// START
+    @SuppressLint("StaticFieldLeak")
+    private void sendDataToServerAdmin(JSONObject jsonObject){
+        final String jsonString = jsonObject.toString();
+
+        new AsyncTask<Void, Void, String>(){
+            @Override
+            protected String doInBackground(Void... voids) {
+                try {
+                    return getServerResponseAdmin(jsonString);
+                } catch (UnsupportedEncodingException e) {
+                    Log.d("AdminPushDataEncoding", e.toString());
+                } catch (IOException e) {
+                    Log.d("AdminPushDataIO", e.toString());
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                Toast.makeText(AdminPage.this, "Admin added!", Toast.LENGTH_SHORT).show();
+            }
+        }.execute();
+    }
+
+    private String getServerResponseAdmin(String json) throws IOException {
+        String url = "http://192.168.1.160:3001/admins";
+//        String url = "http://10.0.3.42:3001/admins";
+
+        HttpPost post = new HttpPost(url);
+        StringEntity entity = new StringEntity(json);
+        post.setEntity(entity);
+        post.setHeader("Content-type", "application/json");
+
+        DefaultHttpClient client = new DefaultHttpClient();
+
+        BasicResponseHandler handler = new BasicResponseHandler();
+        String response = client.execute(post, handler);
+
+        Log.d("Admin Server Response", response);
+        return response;
+    }
+
+
+    private JSONObject createJSONObjectAdmin(EditText emailEditText) throws JSONException {
+        String emailString = emailEditText.getText().toString().trim();
+        String admin = mAuth.getCurrentUser().getEmail();
+//        FirebaseUser user = mAuth.getCurrentUser();
+//        String admin = user.getEmail().toString();
+
+
+        Log.i("AdminPage.getData", "CONNECTING TO API...");
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("admin_email", emailString);
+        jsonObject.put("admin_added_by", admin);
+
+        return jsonObject;
+    }
+    //Send admin to server// END
 }
+
+
+
+//upload image button and change bitmap
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        switch (requestCode) {
+//            case 0:
+//                if (resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+//                    String[] filePathColumn = { MediaStore.Images.Media.DATA };
+//                    Cursor cursor = this.getContentResolver().query(data.getData(), filePathColumn, null, null, null);
+//                    if (cursor == null || cursor.getCount() < 1) {
+//                        mCurrentPhoto = null;
+//                        break;
+//                    }
+//                    cursor.moveToFirst();
+//                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//                    if(columnIndex < 0) { // no column index
+//                        mCurrentPhoto = null;
+//                        break;
+//                    }
+//                    mCurrentPhoto = new File(cursor.getString(columnIndex));
+//                    cursor.close();
+//                } else {
+//                    mCurrentPhoto = null;
+//                }
+//                break;
+//            default: Log.d("Image show", "No image");
+//        }
+//
+//        String[] galleryPermissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
+//
+//        final int myVersion = Build.VERSION.SDK_INT;
+//        if (myVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
+//            if (!checkIfAlreadyHasPermission()) {
+//                ActivityCompat.requestPermissions(this,galleryPermissions, 1);
+//            }
+//        }
+//            changeBitmap();
+//
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
+//
+//    private void changeBitmap(){
+//        if (mCurrentPhoto != null) {
+//            Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhoto.getAbsolutePath());
+//            imageView.setImageBitmap(bitmap);
+//        }
+//    }
+//
+//    private boolean checkIfAlreadyHasPermission() {
+//        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//        return result == PackageManager.PERMISSION_GRANTED;
+//    }

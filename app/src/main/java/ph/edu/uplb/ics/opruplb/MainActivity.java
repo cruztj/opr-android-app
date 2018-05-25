@@ -6,12 +6,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -21,7 +19,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,13 +32,11 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class MainActivity extends AppCompatActivity{
 
-    private static final int RC_SIGN_IN_STUDENT = 1;
-    private static final int RC_SIGN_IN_ADMIN = 2
-            ;
+    private static final int RC_SIGN_IN = 1;
+
     private GoogleApiClient mGoogleApiClient;
     private GoogleSignInClient mGoogleSignInClient;
     private boolean loggedInStudentFlag = false;
-    private boolean loggedInAdminFlag = false;
 
     private Button latestNewsButton;
     private Button jobOpeningsButton;
@@ -50,6 +45,8 @@ public class MainActivity extends AppCompatActivity{
     private TextView logInEmailTextView;
 
     private FirebaseAuth mAuth;
+
+    private FetchDataAdmins fetchDataAdmins;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +65,9 @@ public class MainActivity extends AppCompatActivity{
 
         mAuth = FirebaseAuth.getInstance();
 
+        fetchDataAdmins = new FetchDataAdmins(MainActivity.this);
+        fetchDataAdmins.execute();
+
 
         if(mAuth.getCurrentUser() != null) {
             FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -82,8 +82,6 @@ public class MainActivity extends AppCompatActivity{
                 logInEmailTextView.setText(logInEmailText);
             }
         }
-
-
 
         initLayout();
     }
@@ -110,14 +108,9 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-    private void signInStudent() {
+    private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN_STUDENT);
-    }
-
-    private void signInAdmin() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN_ADMIN);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     @Override
@@ -125,33 +118,21 @@ public class MainActivity extends AppCompatActivity{
         super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN_STUDENT) {
+        if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account, RC_SIGN_IN_STUDENT);
+                firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w("onActivityResultStudent", "Google sign in failed", e);
 //                updateUI(null);
             }
-        } else if(requestCode == RC_SIGN_IN_ADMIN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account, RC_SIGN_IN_ADMIN);
-            } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                Log.w("onActivityResultAdmin", "Google sign in failed", e);
-//                updateUI(null);
-            }
-
         }
     }
 
-    private void firebaseAuthWithGoogle(final GoogleSignInAccount acct, final int studentOrAdmin) {
+    private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -170,19 +151,9 @@ public class MainActivity extends AppCompatActivity{
                                 String logInEmailText = "Currently logged in as "+mAuth.getCurrentUser().getEmail();
                                 logInEmailTextView.setText(logInEmailText);
 
-                                if(studentOrAdmin == RC_SIGN_IN_STUDENT) {
-                                    loggedInStudentFlag = true;
-                                    Log.d("AuthCredential", "signInWithCredential:success");
+                                loggedInStudentFlag = true;
+                                Log.d("AuthCredential", "signInWithCredential:success");
 
-                                    Intent intent = new Intent(MainActivity.this, StudentAnnouncements.class);
-                                    startActivity(intent);
-                                } else if(studentOrAdmin == RC_SIGN_IN_ADMIN){
-                                    loggedInAdminFlag = true;
-                                    loggedInStudentFlag = true;
-
-                                    Intent intent = new Intent(MainActivity.this, AdminPage.class);
-                                    startActivity(intent);
-                                }
                             }
                         } else {
                             // If sign in fails, display a message to the user.
@@ -195,10 +166,10 @@ public class MainActivity extends AppCompatActivity{
 
     private void signOut() {
         logInEmailTextView.setText("");
+
         // Firebase sign out
         mAuth.signOut();
         loggedInStudentFlag = false;
-        loggedInAdminFlag = false;
 
         // Google sign out
         mGoogleSignInClient.signOut().addOnCompleteListener(this,
@@ -235,8 +206,8 @@ public class MainActivity extends AppCompatActivity{
         studentAnnouncementsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signInStudent();
-                if(loggedInStudentFlag == true || loggedInAdminFlag == true){
+                signIn();
+                if(loggedInStudentFlag){
                     Intent intent = new Intent(MainActivity.this, StudentAnnouncements.class);
                     startActivity(intent);
                 }
@@ -262,8 +233,18 @@ public class MainActivity extends AppCompatActivity{
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.menuLogIn:
-                        signInAdmin();
-
+                        if(mAuth.getCurrentUser() == null){
+                            signIn();
+                        } else{
+                            String email = mAuth.getCurrentUser().getEmail();
+                            Log.d("LoggedIn Email", email);
+                            Log.d("CheckIfEmailIsAdmin", String.valueOf(fetchDataAdmins.checkIfEmailIsAdmin(email)));
+                            fetchDataAdmins.setCheckEmail(email);
+                            if (fetchDataAdmins.checkIfEmailIsAdmin(email)) {
+                                Intent intent = new Intent(MainActivity.this, AdminPage.class);
+                                startActivity(intent);
+                            }
+                        }
 
                         return true;
 
