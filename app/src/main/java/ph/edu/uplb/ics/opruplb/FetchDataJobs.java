@@ -19,9 +19,10 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class FetchDataJobs extends AsyncTask<Void, Void, Void> {
-    private Activity context;
+//    private String urlString = "http://10.11.222.46/publicrelations/UPLBJobPosting.php";
+    private String urlString = "http://10.0.2.2/publicrelations/UPLBJobPosting.php";
 
-    private String urlString = "";
+    private Activity context;
     private String data = "";
     private int tabPosition=0;
     private String[] dataArray;
@@ -47,7 +48,7 @@ public class FetchDataJobs extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
 //        10.0.2.2 is localhost for android emulator
 //        urlString = "http://10.0.2.2/publicrelations/UPLBJobPosting.php";
-        urlString = "http://192.168.1.160/publicrelations/UPLBJobPosting.php";
+//        urlString = "http://192.168.1.160/publicrelations/UPLBJobPosting.php";/10.11.222.46
 //        urlString = "http://10.0.3.42/publicrelations/UPLBJobPosting.php";
 
         try{

@@ -52,6 +52,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class AdminPage extends AppCompatActivity {
+//    String url = "http://10.11.222.46:3001/announcements";
+    String url = "http://10.0.2.2:3001/announcements";
 
     private EditText postTitleEditText;
     private EditText postContentEditText;
@@ -210,7 +212,7 @@ public class AdminPage extends AppCompatActivity {
     }
 
     private String getServerResponse(String json) throws IOException {
-        String url = "http://192.168.1.160:3001/announcements";
+//        String url = "http://192.168.1.160:3001/announcements";
 //        String url = "http://10.0.3.42:3001/announcements";
 
         HttpPost post = new HttpPost(url);

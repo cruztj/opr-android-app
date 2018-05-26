@@ -25,6 +25,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class FetchDataAnnouncements extends AsyncTask<Void, Void, Void>{
+//    String urlString = "http://10.11.222.46:3001/announcements";
+    String urlString = "http://10.0.2.2:3001/announcements";
+    // 10.0.2.2 localhost emulator
+
     String data = "";
     private Activity context;
 
@@ -40,7 +44,7 @@ public class FetchDataAnnouncements extends AsyncTask<Void, Void, Void>{
 
     @Override
     protected Void doInBackground(Void... voids) {
-        String urlString = "http://192.168.1.160:3001/announcements";
+//        String urlString = "http://192.168.1.160:3001/announcements";
 //        String urlString = "http://10.0.3.42:3001/announcements";
 
 
@@ -90,7 +94,7 @@ public class FetchDataAnnouncements extends AsyncTask<Void, Void, Void>{
 
     private void parseData(String data) throws JSONException, ParseException {
         JSONArray JA = new JSONArray(data);
-        for (int i = JA.length()-1; i >= 0; i--) {
+        for (int i = JA.length(); i >= 0; i--) {
             JSONObject JO = (JSONObject) JA.get(i);
             this.postTitle.add(JO.getString("announcement_title"));
             this.postContent.add(JO.getString("announcement_text"));
