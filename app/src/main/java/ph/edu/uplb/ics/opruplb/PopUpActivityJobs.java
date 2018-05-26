@@ -121,7 +121,7 @@ public class PopUpActivityJobs extends AppCompatActivity {
             "\n\nThank You,\n\nName: \nContact Number: ";
 
 
-        String[] TO = {"hrdo.uplb@up.edu.ph"};
+        String[] TO = {"hrdo.uplb@uplblogo.edu.ph"};
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setData(Uri.parse("mailto:"));
         emailIntent.setType("text/plain");

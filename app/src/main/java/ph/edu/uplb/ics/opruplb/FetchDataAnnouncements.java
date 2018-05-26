@@ -94,7 +94,8 @@ public class FetchDataAnnouncements extends AsyncTask<Void, Void, Void>{
 
     private void parseData(String data) throws JSONException, ParseException {
         JSONArray JA = new JSONArray(data);
-        for (int i = JA.length(); i >= 0; i--) {
+//        for (int i = JA.length()-1; i > -1; i--) {
+        for (int i = 0; i < JA.length(); i++) {
             JSONObject JO = (JSONObject) JA.get(i);
             this.postTitle.add(JO.getString("announcement_title"));
             this.postContent.add(JO.getString("announcement_text"));

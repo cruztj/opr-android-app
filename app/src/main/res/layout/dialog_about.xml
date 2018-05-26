@@ -26,6 +26,6 @@
         android:paddingRight="15dp"
         android:paddingBottom="15dp"
         android:textSize="17dp"
-        android:text="This is a free app by the Office of the Public Relations, UPLB"/>
+        android:text="Created by Trevor Jove Cruz for the Office of Public Relations, UPLB"/>
 
 </LinearLayout>

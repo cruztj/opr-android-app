@@ -16,7 +16,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/uplblogo"
+                android:src="@drawable/up"
                 android:id="@+id/uplbLogo"
                 android:layout_weight="1"
                 />

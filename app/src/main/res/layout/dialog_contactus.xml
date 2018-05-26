@@ -26,6 +26,10 @@
         android:paddingRight="15dp"
         android:paddingBottom="15dp"
         android:textSize="17dp"
-        android:text="For questions or suggestions, contact the Office of Public Relations"/>
+        android:text="University of the Philippines Los Baños\n
+Office of the Chancellor\n
+Office of Public Relations\n
+Email: uplb@up.edu.ph\n
++63 49 536 3604"/>
 
 </LinearLayout>
