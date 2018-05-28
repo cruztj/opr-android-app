@@ -69,6 +69,9 @@ public class FetchDataJobs extends AsyncTask<Void, Void, Void> {
             }
 
             dataArray = data.split("breaker");
+//            Log.d("DataArray1", dataArray[0]);
+//            Log.d("DataArray2", dataArray[1]);
+//            Log.d("DataArray3", dataArray[2]);
         } catch (MalformedURLException e) {
             Log.d("FetchDataJobs", "MalformedURLException");
             e.printStackTrace();
@@ -83,8 +86,12 @@ public class FetchDataJobs extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
 
-        if(!data.isEmpty()) {
+        if(!data.isEmpty() || data != null) {
             try {
+                if(dataArray[tabPosition].isEmpty() || dataArray[tabPosition] == null || dataArray[tabPosition].equals("null")) {
+                    Toast.makeText(context, "No data available", Toast.LENGTH_SHORT).show();
+                    this.cancel(true);
+                }
                 parseData(dataArray[tabPosition]);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -98,6 +105,13 @@ public class FetchDataJobs extends AsyncTask<Void, Void, Void> {
         } else{
             Toast.makeText(context, "Error in getting data from server", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    protected void onCancelled() {
+        super.onCancelled();
+
+//        Toast.makeText(context, "No data available", Toast.LENGTH_SHORT).show();
     }
 
     public void parseData(String data) throws JSONException {

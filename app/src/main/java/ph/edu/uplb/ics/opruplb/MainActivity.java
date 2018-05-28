@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity{
         if(mAuth.getCurrentUser() != null) {
             FirebaseUser currentUser = mAuth.getCurrentUser();
             String email[] = currentUser.getEmail().split("@");
-            if (!email[1].equals("uplblogo.edu.ph")) {
+            if (!email[1].equals("up.edu.ph")) {
                 logInEmailTextView.setText("");
                 loggedInStudentFlag = false;
                 signOut();
@@ -94,12 +94,12 @@ public class MainActivity extends AppCompatActivity{
         if(currentUser != null) {
             FirebaseUser currentFirebaseUser = mAuth.getCurrentUser();
             String email[] = currentFirebaseUser.getEmail().split("@");
-            if (!email[1].equals("uplblogo.edu.ph")) {
+            if (!email[1].equals("up.edu.ph")) {
                 logInEmailTextView.setText("");
                 loggedInStudentFlag = false;
                 signOut();
                 Toast.makeText(MainActivity.this, "Please use UP Mail", Toast.LENGTH_LONG).show();
-            } else if(email[1].equals("uplblogo.edu.ph")){
+            } else if(email[1].equals("up.edu.ph")){
                 String logInEmailText = "Currently logged in as "+mAuth.getCurrentUser().getEmail();
                 logInEmailTextView.setText(logInEmailText);
                 loggedInStudentFlag = true;
@@ -142,11 +142,11 @@ public class MainActivity extends AppCompatActivity{
                             //check domain name first
                             Log.d("Acct email",acct.getEmail());
                             String emailSplit[] = acct.getEmail().split("@");
-                            if(!emailSplit[1].equals("uplblogo.edu.ph")){
+                            if(!emailSplit[1].equals("up.edu.ph")){
                                 logInEmailTextView.setText("");
                                 signOut();
                                 Toast.makeText(MainActivity.this, "Please use UP Mail", Toast.LENGTH_LONG).show();
-                            } else if(emailSplit[1].equals("uplblogo.edu.ph")){
+                            } else if(emailSplit[1].equals("up.edu.ph")){
                                 // Sign in success, update UI with the signed-in user's information
                                 String logInEmailText = "Currently logged in as "+mAuth.getCurrentUser().getEmail();
                                 logInEmailTextView.setText(logInEmailText);
