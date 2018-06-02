@@ -4,11 +4,13 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInstaller;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.MediaCas;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -23,6 +25,7 @@ import android.util.Patterns;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -50,6 +53,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Properties;
 
 public class AdminPage extends AppCompatActivity {
 //    String url = "http://10.11.222.46:3001/announcements";
@@ -164,7 +168,10 @@ public class AdminPage extends AppCompatActivity {
                                 //TODO: create function for sending data to server admin
                                 try {
                                     sendDataToServerAdmin(createJSONObjectAdmin(emailEditText));
+//                                    sendEmail(emailEditText.getText().toString());
                                     emailEditText.setText("");
+                                    Toast.makeText(AdminPage.this, "Admin added! Notification email sent", Toast.LENGTH_SHORT).show();
+
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -182,6 +189,12 @@ public class AdminPage extends AppCompatActivity {
             }
         });
     }
+
+
+//    public void sendEmail(String from){
+//
+//
+//    }
 
     //Send announcement to server// START
     @SuppressLint("StaticFieldLeak")

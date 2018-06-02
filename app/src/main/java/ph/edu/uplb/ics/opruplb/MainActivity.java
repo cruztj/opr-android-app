@@ -224,9 +224,22 @@ public class MainActivity extends AppCompatActivity{
 
     public void showPopUp(View v){
         PopupMenu popUp = new PopupMenu(this, v);
-        MenuInflater inflater = popUp.getMenuInflater();
-        inflater.inflate(R.menu.home_options_menu, popUp.getMenu());
+//        MenuInflater inflater = popUp.getMenuInflater();
+
+        if(mAuth.getCurrentUser() == null)
+            popUp.getMenu().add(1, R.id.menuLogIn, 1, "Log In");
+        else {
+            if (fetchDataAdmins.checkIfEmailIsAdmin(mAuth.getCurrentUser().getEmail()))
+                popUp.getMenu().add(1, R.id.menuAdminPage, 1, "Admin Page");
+            popUp.getMenu().add(4, R.id.menuLogOut, 4, "Log Out");
+        }
+
+        popUp.getMenu().add(2, R.id.menuContactUs, 2, "Contact Us");
+        popUp.getMenu().add(3, R.id.menuAbout, 3, "About");
+
+//        inflater.inflate(R.menu.home_options_menu, popUp.getMenu());
         popUp.show();
+
 
         popUp.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -238,13 +251,13 @@ public class MainActivity extends AppCompatActivity{
                         } else{
                             String email = mAuth.getCurrentUser().getEmail();
                             Log.d("LoggedIn Email", email);
-                            Log.d("CheckIfEmailIsAdmin", String.valueOf(fetchDataAdmins.checkIfEmailIsAdmin(email)));
-                            fetchDataAdmins.setCheckEmail(email);
-                            if (fetchDataAdmins.checkIfEmailIsAdmin(email)) {
-                                Intent intent = new Intent(MainActivity.this, AdminPage.class);
-                                startActivity(intent);
-                            }
                         }
+
+                        return true;
+
+                    case R.id.menuAdminPage:
+                        Intent intent = new Intent(MainActivity.this, AdminPage.class);
+                        startActivity(intent);
 
                         return true;
 

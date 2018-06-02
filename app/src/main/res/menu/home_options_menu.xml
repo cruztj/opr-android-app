@@ -7,17 +7,21 @@
         android:orderInCategory="1"
         android:id="@+id/menuLogIn" />
     <item
-        android:title="Contact Us"
+        android:title="Admin Page"
         android:orderInCategory="2"
+        android:id="@+id/menuAdminPage" />
+    <item
+        android:title="Contact Us"
+        android:orderInCategory="3"
         android:id="@+id/menuContactUs" />
     <item
         android:title="About"
-        android:orderInCategory="3"
+        android:orderInCategory="4"
         android:id="@+id/menuAbout" />
 
     <item
         android:title="Log Out"
-        android:orderInCategory="4"
+        android:orderInCategory="5"
         android:id="@+id/menuLogOut" />
 
 
