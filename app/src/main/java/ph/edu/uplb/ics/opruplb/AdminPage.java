@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.MediaCas;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -58,6 +59,7 @@ import java.util.Properties;
 public class AdminPage extends AppCompatActivity {
 //    String url = "http://10.11.222.46:3001/announcements";
     String url = "http://10.0.2.2:3001/announcements";
+    String urlAdmin = "http://10.0.2.2:3001/admins";
 
     private EditText postTitleEditText;
     private EditText postContentEditText;
@@ -70,7 +72,7 @@ public class AdminPage extends AppCompatActivity {
 
 //    private File mCurrentPhoto;
     private FirebaseAuth mAuth;
-
+    private FetchDataAdmins fetchDataAdmins;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,8 @@ public class AdminPage extends AppCompatActivity {
         setContentView(R.layout.activity_admin_page);
 
         mAuth = FirebaseAuth.getInstance();
+        fetchDataAdmins = new FetchDataAdmins(AdminPage.this);
+        fetchDataAdmins.execute();
 
         postTitleEditText = (EditText) findViewById(R.id.postTitleText);
         postContentEditText = (EditText) findViewById(R.id.postDescriptionText);
@@ -162,26 +166,27 @@ public class AdminPage extends AppCompatActivity {
                         final EditText emailEditText = (EditText) addUserView.findViewById(R.id.emailText);
                         Button addUserButton = (Button) addUserView.findViewById(R.id.addUserButton);
 
+                        logInDialogBuilder.setView(addUserView);
+                        final AlertDialog logInAlertDialog = logInDialogBuilder.create();
+                        logInAlertDialog.show();
+
                         addUserButton.setOnClickListener(new View.OnClickListener(){
                             @Override
                             public void onClick(View v){
-                                //TODO: create function for sending data to server admin
                                 try {
-                                    sendDataToServerAdmin(createJSONObjectAdmin(emailEditText));
-//                                    sendEmail(emailEditText.getText().toString());
-                                    emailEditText.setText("");
-                                    Toast.makeText(AdminPage.this, "Admin added! Notification email sent", Toast.LENGTH_SHORT).show();
-
+                                    if(!fetchDataAdmins.checkIfEmailIsAdmin(emailEditText.getText().toString())) {
+                                        sendDataToServerAdmin(createJSONObjectAdmin(emailEditText));
+                                        sendEmail(emailEditText.getText().toString());
+                                        emailEditText.setText("");
+                                        logInAlertDialog.dismiss();
+                                    } else{
+                                        Toast.makeText(AdminPage.this, "User is already an admin", Toast.LENGTH_SHORT).show();
+                                    }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
                             }
                         });
-
-                        logInDialogBuilder.setView(addUserView);
-                        AlertDialog logInAlertDialog = logInDialogBuilder.create();
-                        logInAlertDialog.show();
-
                         return true;
                     default:
                         return false;
@@ -191,10 +196,35 @@ public class AdminPage extends AppCompatActivity {
     }
 
 
-//    public void sendEmail(String from){
-//
-//
-//    }
+    public void sendEmail(String to){
+        String emailText = "";
+        Log.i("Send email", "");
+
+        emailText = "Good Day! \n\n You have just been given administrator privileges for the eUPLB android app!" +
+                " With this, you will be able to post Student Announcements for the android application.";
+
+
+        String[] TO = {to};
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("text/plain");
+
+
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "eUPLB Android App Administrator");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, emailText);
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            finish();
+            Log.i("SentEmailAddAdmin", "");
+            Toast.makeText(AdminPage.this, "Admin added!", Toast.LENGTH_SHORT).show();
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(AdminPage.this,
+                    "There is no email client installed.", Toast.LENGTH_SHORT).show();
+        }
+
+    }
 
     //Send announcement to server// START
     @SuppressLint("StaticFieldLeak")
@@ -294,10 +324,10 @@ public class AdminPage extends AppCompatActivity {
     }
 
     private String getServerResponseAdmin(String json) throws IOException {
-        String url = "http://192.168.1.160:3001/admins";
+
 //        String url = "http://10.0.3.42:3001/admins";
 
-        HttpPost post = new HttpPost(url);
+        HttpPost post = new HttpPost(urlAdmin);
         StringEntity entity = new StringEntity(json);
         post.setEntity(entity);
         post.setHeader("Content-type", "application/json");
